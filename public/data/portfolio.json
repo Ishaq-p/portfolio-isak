@@ -1,0 +1,207 @@
+{
+  "hero": {
+    "name": "Ishaq PaktinYar",
+    "title": "Software Engineer // Bioinformatics Researcher",
+    "value_prop": "Working on ML-driven prediction systems and backend services."
+  },
+
+  "skills": [
+    {     "category": "Languages",                 "items": [ "Python", "TypeScript", "SQL", "Bash", "C++"]  },
+    {     "category": "ML / AI",                   "items": [ "Transformers", "Computer Vision", "Time-Series Forecasting", "Deep Learning (CNNs, RNNs, LSTMs)", "Data Engineering (ETL, Pipelines)" ]  },  
+    {     "category": "Backend",                   "items": [ "NestJS", "PostgreSQL","Django", "Flask", "Redis", "REST APIs" ]  },
+    {     "category": "Frontend (Supporting)",     "items": [ "Next.js", "React", "Vite", "Browser Extensions (Manifest V3)"  ]   },
+    {     "category": "Tools & Infrastructure",    "items": [ "Git", "Docker", "AWS", "PyTorch", "OCR (PaddleOCR / Tesseract)", "Rasa" ]  }
+  ],
+
+  "projects": [
+    {
+      "id": "bitatlim-prod",
+      "title": "BiTatlım Marketplace",
+      "problem": "Required a production-grade delivery platform with secure data handling and optimized logistics.",
+      "contribution": "Lead Developer; architected backend with Next.js/PostgreSQL and optimized routing via data telemetry.",
+      "outcome": "Mitigated cyber-attacks to secure 1,800+ user records and transitioned monitoring to predictive efficiency.",
+      "tech": ["Next.js", "TypeScript", "Redis", "PostgreSQL"],
+      "links": { "github": "https://github.com/paktinyar", "demo": "https://bitatlim.com" }
+    },
+    {
+      "id": "bio-neural-research",
+      "title": "Protein Function Prediction",
+      "problem": "Low precision in computational protein classification models at JRavi Lab.",
+      "contribution": "Engineered an ML pipeline using PyTorch and Self-Attention for sequence-to-function mapping.",
+      "outcome": "Increased classification accuracy from 86% to 98% while reducing computational costs by 30%.",
+      "tech": ["PyTorch", "CNN", "Bio-Informatic-Tools", "Pandas"],
+      "links": { "github": "https://github.com/paktinyar", "demo": "#" }
+    },
+    {
+      "id": "climate-pulse",
+      "title": "ClimatePulse Dashboard",
+      "problem": "Thesis: Integrating disparate environmental and meteorological datasets for health risk forecasting.",
+      "contribution": "Implemented TimesNet model for multivariate time-series forecasting and a RASA-powered chatbot.",
+      "outcome": "Achieved high-accuracy health risk forecasting across climate and air quality datasets.",
+      "tech": ["Django", "NeuralForecast", "TimesNet", "RASA"],
+      "links": { "github": "https://github.com/paktinyar", "demo": "#" }
+    }
+  ],
+  "experience": [
+    {
+      "id": "jravi-research-assistant",
+      "role": "Undergrad Researcher",
+      "organization": "JRavi Lab, University of Colorado",
+      "location": "Remote (USA)",
+      "type": "Research",
+      "duration": {
+        "start": "2023-06",
+        "end": "Present"
+      },
+      "summary": "Conducted applied ML research in computational biology, improving protein function prediction pipelines and developing species classification models.",
+      "key_impact": [
+        "Improved protein function prediction accuracy from 86% to 98%",
+        "Demonstrated classical ML models rival PLMs with lower compute cost",
+        "Currently developing protein species classification models"
+      ],
+      "stack": [
+        "Python",
+        "Scikit-learn",
+        "PyTorch",
+        "Bioinformatics Tools"
+      ],
+      "domain": [
+        "Machine Learning",
+        "Research",
+        "Bioinformatics"
+      ],
+      "level": "Core",
+      "has_details_page": true,
+      "links": {
+        "details": "/portfolio/experience/jravi-research-assistant",
+        "organization": "https://www.colorado.edu"
+      }
+    },
+    {
+      "id": "parem-backend-engineer",
+      "role": "Backend Engineer",
+      "organization": "Parem Academy",
+      "location": "Istanbul, Turkey",
+      "type": "Startup / Training-to-Production",
+      "duration": {
+        "start": "2024-09",
+        "end": "Present"
+      },
+      "summary": "Backend engineer in a startup environment, contributing to production-grade applications and data-driven platforms.",
+      "key_impact": [
+        "Pushed a production-ready application to live environment",
+        "Developed backend API integrations and data pipelines",
+        "Collaborated in fast-paced startup team delivering real products"
+      ],
+      "stack": [
+        "Node.js",
+        "PostgreSQL",
+        "REST APIs",
+        "Docker"
+      ],
+      "domain": [
+        "Backend",
+        "Startup Engineering"
+      ],
+      "level": "Core",
+      "has_details_page": true,
+      "links": {
+        "details": "/portfolio/experience/parem-backend-engineer",
+        "organization": "https://www.parem.com"
+      }
+    },
+    {
+      "id": "istanbul-i-it-coordinator",
+      "role": "IT Coordinator",
+      "organization": "Istanbul&I NGO",
+      "location": "Istanbul, Turkey",
+      "type": "Part-time",
+      "duration": {
+        "start": "2022-10",
+        "end": "2024-06"
+      },
+      "summary": "Led development of internal systems and data platforms supporting NGO operations and member analytics.",
+      "key_impact": [
+        "Designed and deployed HR database system for staff and member tracking",
+        "Built member-facing analytics sub-platform with secure API integration",
+        "Contributed to NGO website and internal digital infrastructure"
+      ],
+      "stack": [
+        "Python",
+        "Django",
+        "PostgreSQL",
+        "REST APIs"
+      ],
+      "domain": [
+        "Backend",
+        "Data Engineering",
+        "Social Impact"
+      ],
+      "level": "Core",
+      "has_details_page": true,
+      "links": {
+        "details": "/portfolio/experience/istanbul-i-it-coordinator",
+        "organization": "https://istanbulandi.org"
+      }
+    },
+    {
+      "id": "devsecure-intern",
+      "role": "Software Developer Intern",
+      "organization": "DevSecure",
+      "location": "Turkey",
+      "type": "Internship",
+      "duration": {
+        "start": "2024-02",
+        "end": "2024-06"
+      },
+      "summary": "Worked on maintaining and extending production platforms for multiple business clients.",
+      "key_impact": [
+        "Maintained and enhanced client-facing platforms",
+        "Assisted teammates and mentored junior interns",
+        "Improved documentation and onboarding workflows"
+      ],
+      "stack": [
+        "JavaScript",
+        "Backend Frameworks",
+        "SQL"
+      ],
+      "domain": [
+        "Software Engineering"
+      ],
+      "level": "Supporting",
+      "has_details_page": false,
+      "links": {
+        "details": null,
+        "organization": "https://devsecure.com"
+      }
+    }
+  ],
+  "education": {
+    "degree": "B.Sc. in Computer Engineering (High Honors)",
+    "institution": "Istanbul Arel University",
+    "year": "2025"
+  },
+  "contact": {
+    "email": "sultan.ishaq.321@gmail.com",
+    "github": "github.com/paktinyar",
+    "linkedin": "linkedin.com/in/paktinyar"
+  },
+  "social_impact": {
+    "languages": [
+      { "name": "English", "level": "Fluent" },
+      { "name": "Persian", "level": "Fluent" },
+      { "name": "Turkish", "level": "Fluent" },
+      { "name": "Pashto", "level": "Native" },
+      { "name": "Urdu", "level": "Fluent" },
+      { "name": "Spanish", "level": "Beginner" }
+    ],
+    "community": [
+      { "organization": "i&i Book Club", "role": "Founder", "year": "2024" },
+      { "organization": "Sokak Lambasi Assoc.", "role": "Volunteer", "year": "Since 07/2023" },
+      { "organization": "T3 AI’LE", "role": "Data Commission Volunteer", "year": "2024" },
+      { "organization": "Bilim Üsküdar", "role": "Teaching Asst.", "year": "12/2023 – 03/2024" },
+      { "organization": "English Tutoring", "role": "Founder", "year": "2024" },
+      { "organization": "Best Diplomats", "role": "Local Team Coordinator", "year": "2024" }
+    ]
+  }
+}

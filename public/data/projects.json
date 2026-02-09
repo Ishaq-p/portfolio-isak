@@ -1,0 +1,1155 @@
+[
+  {
+    "id": "bitatlim",
+    "title": "Bitatlım: Hyperlocal Marketplace & Logistics Platform",
+    "summary": "A multi-tenant marketplace for perishable goods delivery in Istanbul, featuring a hybrid logistics engine and automated financial splitting.",
+
+    "problem": {
+      "description": "Managing the logistics of perishable desserts while handling complex multi-party financial transactions in real-time.",
+      "constraints": [
+        "Perishable inventory (requires <45min delivery)",
+        "Complex split-payments (Seller, Platform, Courier, Bank)",
+        "High-cost sensitivity (avoiding managed cloud premiums)"
+      ]
+    },
+
+    "system_overview": {
+      "type": "Full-Stack Web Platform (Monorepo)",
+      "input": "User Geolocation + Real-time Seller Inventory",
+      "output": "Optimized delivery routes & automated payouts"
+    },
+
+    "architecture": {
+      "diagram": "/images/bitatlim-arch.svg",
+      "components": [
+        "Next.js (Client & Seller Dashboard)",
+        "NestJS (Backend API)",
+        "PostgreSQL + Prisma (Relational Data)",
+        "Nginx (Reverse Proxy & Security)",
+        "Custom Bash CI/CD Pipeline"
+      ]
+    },
+
+    "your_contributions": [
+      "Architected a custom Linux VPS infrastructure using Nginx and PM2, reducing hosting costs by 90% vs. managed cloud.",
+      "Engineered the 'Veroz' hybrid logistics module, allowing dynamic switching between Seller-Fulfillment and Platform-Fulfillment.",
+      "Implemented a cryptographic ledger for automated revenue splitting (Platform Fee, Seller Net, Courier Payout).",
+      "Developed custom VS Code tooling (extensions) to standardize developer workflows."
+    ],
+
+    "results": {
+      "metrics": [
+        { "name": "Infrastructure Cost", "value": "-90% vs AWS/Vercel" },
+        { "name": "Coverage", "value": "3 Major Istanbul Districts" }
+      ],
+      "evaluation": "Successfully deployed to production with zero-downtime updates using manual artifact strategies."
+    },
+
+    "engineering_decisions": [
+      {
+        "decision": "Self-Hosted Linux VPS over Serverless",
+        "reason": "Critical need for long-running WebSocket connections (order tracking) and strict cost control."
+      },
+      {
+        "decision": "Hybrid Logistics State Machine",
+        "reason": "To decouple order logic from fulfillment logic, enabling 'Veroz' fleet integration without rewriting core order flows."
+      },
+      {
+        "decision": "Manual Artifact Deployment Strategy",
+        "reason": "Avoids 'it works on my machine' errors by shipping pre-built binaries (Next/Nest) rather than building on production."
+      }
+    ],
+
+    "limitations": [
+      "Manual scaling required for sudden traffic spikes (vertical scaling only)",
+      "Address validation relies on external APIs (Mapbox/Radar) subject to rate limits"
+    ],
+
+    "future_work": [
+      "ML-based Dietary Health Recommendation Engine (Sugar/Fat analysis)",
+      "Automated Horizontal Scaling with Kubernetes",
+      "Driver Mobile App (React Native)"
+    ],
+
+    "stack": {
+      "languages": ["TypeScript", "Bash"],
+      "frontend": ["Next.js", "React", "Leaflet/Mapbox"],
+      "backend": ["NestJS", "Node.js", "Prisma"],
+      "infra": ["Linux (Ubuntu)", "Nginx", "PM2", "PostgreSQL"]
+    },
+
+    "links": {
+      "github": "https://github.com/YOUR_USERNAME/bitatlim",
+      "paper": null,
+      "demo": "https://bitatlim.com"
+    },
+
+    "short_card": {
+      "id": "bitatlim-marketplace",
+      "title": "Bitatlım Marketplace",
+      "tagline": "Hyperlocal delivery platform with custom financial & logistics engines",
+      "domain": ["FinTech", "Logistics", "Full-Stack"],
+      "role": "Lead Architect",
+      "stack": ["Next.js", "NestJS", "PostgreSQL", "Linux VPS"],
+      "key_metric": {
+        "label": "Districts Served",
+        "value": "3"
+      },
+      "secondary_metric": {
+        "label": "Cost Efficiency",
+        "value": "90% Savings"
+      },
+      "status": "Production",
+      "year": 2026,
+      "links": {
+        "details": "/projects/bitatlim",
+        "github": "https://github.com/YOUR_USERNAME/bitatlim",
+        "demo": "https://bitatlim.com"
+      }
+    }
+  },
+  {
+    "id": "veroz",
+    "title": "Veroz: Freelance Courier Delivery Pooling System",
+    "summary": "Full-stack delivery management platform enabling freelance couriers to pool deliveries and optimize routes. Features real-time tracking, dynamic pricing, multi-role authentication (Client/Courier/Admin), and a comprehensive admin dashboard with analytics.",
+
+    "problem": {
+      "description": "Freelance couriers operate inefficiently with individual delivery requests, leading to high operational costs, poor delivery times, and fragmented customer experience. Clients lack visibility into deliveries. Admins need real-time operational insights.",
+      "constraints": [
+        "Real-time location tracking at scale",
+        "Dynamic pricing based on distance, weight, and time",
+        "Multi-role authentication and authorization",
+        "Order state management (7+ states)",
+        "Concurrent delivery assignments to multiple couriers",
+        "Live notifications across web and mobile"
+      ],
+      "user_pain_points": [
+        "Couriers: Scattered pickup locations, manual coordination, no earnings visibility",
+        "Clients: Unpredictable delivery times, no tracking, fragmented handoff",
+        "Admins: Limited visibility into operations, manual intervention needed"
+      ]
+    },
+
+    "system_overview": {
+      "type": "Full-Stack Web Application + Backend Service",
+      "architecture_style": "Microservices-ready monolith with modular components",
+      "primary_users": ["Individual Couriers", "Business Clients", "Platform Admins"],
+      "core_features": [
+        "Order creation & management",
+        "Real-time delivery tracking (WebSocket)",
+        "Dynamic price estimation",
+        "Wallet & payout system",
+        "Multi-role authentication (JWT + HMAC-SHA256)",
+        "Admin analytics dashboard",
+        "API documentation portal"
+      ],
+      "deployment": "Docker containerized, AWS-ready",
+      "scalability": "Designed for 250+ couriers, 1000+ daily orders"
+    },
+
+    "architecture": {
+      "diagram": "/images/veroz-architecture.svg",
+      "pattern": "Three-tier: Frontend (React/Vite) → Backend (Node.js/Express) → Database (PostgreSQL)",
+      "components": {
+        "frontend": {
+          "type": "Single Page Application",
+          "framework": "React 18 + TypeScript",
+          "bundler": "Vite",
+          "state": "React Context + Hooks",
+          "styling": "CSS Variables + Veroz Theme",
+          "pages": [
+            "Authentication (Login, Register, Password Recovery)",
+            "Client Dashboard (Orders, Stats, Wallet)",
+            "Order Management (Create, List, Detail, Track)",
+            "Courier Deliveries & Real-time Tracking",
+            "Wallet & Earnings",
+            "User Profile & Settings",
+            "Admin Dashboard (Analytics, Users, Orders)",
+            "API Documentation (Admin & Client APIs)"
+          ]
+        },
+        "backend": {
+          "type": "RESTful API + WebSocket",
+          "framework": "Node.js/Express",
+          "authentication": [
+            "JWT Bearer tokens (1hr access, 7day refresh)",
+            "HMAC-SHA256 signatures (Client API)"
+          ],
+          "database": "PostgreSQL with Prisma ORM",
+          "caching": "Redis (optional, for sessions/rate-limiting)",
+          "real_time": "Socket.io for live tracking & notifications",
+          "services": [
+            "Auth Service (registration, login, JWT)",
+            "Order Service (CRUD, status transitions)",
+            "Delivery Service (assignment, tracking)",
+            "Pricing Service (distance + weight calculation)",
+            "Wallet Service (balance, transactions, payouts)",
+            "User Service (profile, preferences)",
+            "Analytics Service (metrics, reports)"
+          ]
+        },
+        "data_layer": {
+          "primary": "PostgreSQL",
+          "schema": "Users, Orders, Deliveries, Wallets, Transactions, Analytics",
+          "transactions": "ACID-compliant for critical operations (payments, assignments)",
+          "indexing": "Optimized for order lookups, courier availability, location queries"
+        }
+      }
+    },
+
+    "your_contributions": [
+      {
+        "area": "Backend Architecture",
+        "details": [
+          "Designed RESTful API with 92 endpoints across 7 service modules",
+          "Implemented dual authentication: JWT for internal, HMAC-SHA256 for public API",
+          "Built Prisma ORM schema with 12+ models and relationships",
+          "Created service-oriented architecture with clear separation of concerns"
+        ]
+      },
+      {
+        "area": "Authentication & Security",
+        "details": [
+          "Implemented JWT token management with refresh token rotation",
+          "Built HMAC-SHA256 signature generation for API key clients",
+          "Designed role-based access control (CLIENT/COURIER/ADMIN)",
+          "Created rate-limiting strategy (100 req/min default, per-endpoint customization)"
+        ]
+      },
+      {
+        "area": "Core Features",
+        "details": [
+          "Order management system with 7-state workflow (PENDING → DELIVERED/CANCELLED)",
+          "Dynamic pricing engine based on distance, weight, and time",
+          "Real-time delivery tracking via WebSocket",
+          "Wallet system with transaction history and payout management",
+          "Live notifications (in-app, SMS, email, push-ready)"
+        ]
+      },
+      {
+        "area": "Frontend Implementation",
+        "details": [
+          "Built responsive React application with TypeScript for type safety",
+          "Created 16+ pages with form validation, error handling, and loading states",
+          "Implemented Veroz theme system with CSS variables",
+          "Built API documentation portal (Admin & Client APIs)",
+          "Designed reusable Layout component with sidebar navigation"
+        ]
+      },
+      {
+        "area": "API Documentation",
+        "details": [
+          "Created interactive Admin API docs with 5-phase organization and 15+ endpoints",
+          "Built Client API docs for third-party integrations with HMAC authentication guide",
+          "Documented error handling, rate limiting, and security features",
+          "Provided code examples and integration guides"
+        ]
+      },
+      {
+        "area": "Data Integration",
+        "details": [
+          "Designed HTTP client with automatic token refresh",
+          "Built service layer connecting frontend to 50+ API endpoints",
+          "Implemented comprehensive TypeScript type definitions (30+ interfaces, 10+ enums)",
+          "Created auth context for global state management"
+        ]
+      }
+    ],
+
+    "results": {
+      "metrics": [
+        {
+          "category": "API Completeness",
+          "label": "Endpoints Implemented",
+          "value": "92",
+          "context": "Covering all core functionality"
+        },
+        {
+          "category": "Frontend Coverage",
+          "label": "Pages Built",
+          "value": "16+",
+          "context": "Including auth, dashboard, orders, tracking, wallet, profile, docs"
+        },
+        {
+          "category": "Documentation",
+          "label": "Code Files",
+          "value": "1,200+",
+          "context": "Lines of production-ready code"
+        },
+        {
+          "category": "Database",
+          "label": "Models",
+          "value": "12",
+          "context": "Users, Orders, Deliveries, Wallets, Transactions, etc."
+        },
+        {
+          "category": "Security",
+          "label": "Auth Methods",
+          "value": "2",
+          "context": "JWT (internal) + HMAC-SHA256 (public API)"
+        },
+        {
+          "category": "Performance",
+          "label": "Designed Capacity",
+          "value": "1000+ orders/day",
+          "context": "250+ concurrent couriers"
+        }
+      ],
+      "evaluation": "Complete end-to-end system with all core features implemented, tested, and documented. Production-ready for deployment."
+    },
+
+    "engineering_decisions": [
+      {
+        "decision": "JWT + Refresh Tokens for Authentication",
+        "reason": "Stateless auth scales better than sessions. Refresh tokens enable secure token rotation without user re-login.",
+        "tradeoff": "Requires server-side refresh token blacklist for logout (minor overhead)"
+      },
+      {
+        "decision": "HMAC-SHA256 for Public Client API",
+        "reason": "Provides request integrity verification and timestamp validation without OAuth complexity. Suitable for server-to-server integration.",
+        "tradeoff": "Clients must manage API secrets securely"
+      },
+      {
+        "decision": "WebSocket for Real-time Tracking",
+        "reason": "Live location updates require low-latency bidirectional communication. Socket.io provides fallback support.",
+        "tradeoff": "Requires separate connection management and scaling strategy"
+      },
+      {
+        "decision": "React Context for State Management",
+        "reason": "Sufficient for this project scope without Redux/Zustand complexity. Auth context provides global user state.",
+        "tradeoff": "May need migration to Zustand if app grows significantly"
+      },
+      {
+        "decision": "PostgreSQL with Prisma ORM",
+        "reason": "ACID transactions critical for order/payment operations. Prisma provides type-safe database access.",
+        "tradeoff": "Less flexible for unstructured data (could add MongoDB for analytics if needed)"
+      },
+      {
+        "decision": "Sidebar Navigation + Layout Component",
+        "reason": "Modular reusable component reduces duplication. Sidebar scales well as feature set grows.",
+        "tradeoff": "Mobile collapsing sidebar requires CSS media queries"
+      },
+      {
+        "decision": "Veroz Theme with CSS Variables",
+        "reason": "Single source of truth for colors. Easy theming without code changes.",
+        "tradeoff": "Requires browser support for CSS custom properties (modern browsers only)"
+      },
+      {
+        "decision": "Service Layer Pattern",
+        "reason": "Separates business logic from API routes. Makes testing and reuse easier.",
+        "tradeoff": "Additional abstraction layer adds slight complexity"
+      }
+    ],
+
+    "technical_depth": {
+      "authentication": "Dual-token system with signature verification and timestamp validation",
+      "concurrency": "Order/delivery assignment handling multiple concurrent requests",
+      "state_management": "7-state order workflow with transition validation",
+      "real_time": "WebSocket events for location updates and notifications",
+      "performance": "Optimized database queries with proper indexing and pagination",
+      "error_handling": "Comprehensive error codes with user-friendly messages",
+      "validation": "Client-side (form validation) + server-side (request validation)"
+    },
+
+    "limitations": [
+      "Location tracking accuracy depends on GPS signal quality",
+      "Real-time tracking requires consistent network connectivity",
+      "Price estimation model could be enhanced with traffic data",
+      "Admin dashboard metrics are pre-computed (could add real-time updates)",
+      "WebSocket requires separate infrastructure from REST API",
+      "Notification system needs email/SMS provider integration for production"
+    ],
+
+    "future_work": [
+      {
+        "area": "Courier Optimization",
+        "items": [
+          "Route optimization using TSP algorithms",
+          "Machine learning for delivery time prediction",
+          "Batch assignment optimization (minimize total travel time)"
+        ]
+      },
+      {
+        "area": "Real-time Features",
+        "items": [
+          "Live order feed with WebSocket updates",
+          "Courier availability map with demand heatmap",
+          "Push notifications for all events"
+        ]
+      },
+      {
+        "area": "Analytics & Intelligence",
+        "items": [
+          "Predictive analytics for demand forecasting",
+          "Courier performance metrics and ratings",
+          "Custom reports and data export"
+        ]
+      },
+      {
+        "area": "Mobile Apps",
+        "items": [
+          "React Native mobile app for couriers",
+          "Customer-facing mobile app",
+          "Background location tracking"
+        ]
+      },
+      {
+        "area": "Integrations",
+        "items": [
+          "Payment gateway integration (Stripe, PayPal)",
+          "SMS notifications (Twilio)",
+          "Email service (SendGrid)",
+          "Maps API (Google Maps, Mapbox)"
+        ]
+      }
+    ],
+
+    "stack": {
+      "languages": ["TypeScript", "JavaScript"],
+      "frontend": ["React 18", "Vite", "React Router"],
+      "backend": ["Node.js", "Express", "Prisma ORM"],
+      "database": ["PostgreSQL"],
+      "real_time": ["Socket.io"],
+      "styling": ["CSS", "CSS Variables"],
+      "auth": ["JWT", "HMAC-SHA256"],
+      "deployment": ["Docker", "Docker Compose"],
+      "dev_tools": ["Git", "VS Code"],
+      "documentation": "TypeScript types, inline comments, API docs"
+    },
+
+    "code_statistics": {
+      "backend": {
+        "routes": "92 endpoints",
+        "services": "7 modules",
+        "middleware": "5+ (auth, validation, error handling)",
+        "models": "12 Prisma schemas"
+      },
+      "frontend": {
+        "pages": "16+",
+        "components": "20+",
+        "css_lines": "600+",
+        "total_lines": "1200+"
+      },
+      "total_code_lines": "2000+"
+    },
+
+    "learning_outcomes": [
+      "Full-stack application architecture (monolith with service separation)",
+      "Dual authentication patterns (JWT + HMAC-SHA256)",
+      "Real-time communication with WebSocket",
+      "State management across frontend and backend",
+      "Database design with ACID transactions",
+      "REST API design principles",
+      "Type safety with TypeScript",
+      "API documentation and developer experience",
+      "Responsive design with modern CSS"
+    ],
+
+    "links": {
+      "github_backend": "https://github.com/yourusername/veroz-backend",
+      "github_frontend": "https://github.com/yourusername/veroz-frontend",
+      "live_demo": null,
+      "documentation": "/docs"
+    },
+
+    "short_card": {
+      "id": "veroz",
+      "title": "Veroz: Courier Delivery Platform",
+      "tagline": "Full-stack delivery management system for freelance couriers with real-time tracking and dynamic pricing",
+      "domain": ["Full-Stack", "Real-Time", "Web App"],
+      "role": "Full-Stack Engineer",
+      "stack": ["React", "Node.js", "PostgreSQL", "TypeScript", "Socket.io", "Docker"],
+      "highlights": [
+        "92 API endpoints",
+        "16+ pages",
+        "Dual authentication",
+        "Real-time tracking",
+        "Admin analytics"
+      ],
+      "key_metrics": [
+        {
+          "label": "API Endpoints",
+          "value": "92"
+        },
+        {
+          "label": "Frontend Pages",
+          "value": "16+"
+        },
+        {
+          "label": "Code Lines",
+          "value": "2000+"
+        },
+        {
+          "label": "Auth Methods",
+          "value": "JWT + HMAC"
+        }
+      ],
+      "status": "Production",
+      "year": 2024,
+      "description": "End-to-end delivery platform featuring client ordering, courier delivery management, real-time tracking with WebSocket, multi-role authentication, wallet system, admin dashboard with analytics, and comprehensive API documentation.",
+      "links": {
+        "details": "/projects/veroz",
+        "github": "https://github.com/yourusername/veroz",
+        "live": null
+      }
+    }
+  },
+  {
+    "id": "pathogenic-feature-landscape",
+    "title": "Defining the Landscape of Pathogenic Features",
+    "summary": "A deep learning framework to predict bacterial pathogenicity and virulence factors directly from protein sequences using molecular evolution signatures.",
+
+    "problem": {
+      "description": "Predicting the 'danger' of emerging or uncharacterized bacterial proteins where traditional homology-based methods (BLAST) fail due to low sequence similarity.",
+      "constraints": [
+        "Taxonomic bias (over-representation of specific families like Mycobacteriaceae)",
+        "Variable-length biological sequences",
+        "Memory-intensive feature space (8,900+ dimensions) within 12GB RAM limits",
+        "Risk of data leakage via taxonomic memorization"
+      ]
+    },
+
+    "system_overview": {
+      "type": "Sequence-to-Function Classifier",
+      "input": "Raw Protein Amino Acid Sequences",
+      "output": "Binary Pathogenicity (Human Pathogen) + 14-class Virulence Factor Classification (VFC)"
+    },
+
+    "architecture": {
+      "diagram": "/images/protein-cnn-vfc-arch.svg",
+      "components": [
+        "K-mer Tokenization Pipeline (k=3)",
+        "1D Convolutional Neural Network (Conv1D) for motif detection",
+        "Self-Attention mechanism for capturing long-range residues",
+        "Gradient-based XAI (SHAP) for biological feature auditing",
+        "Taxa-aware data splitting (GroupKFold)"
+      ]
+    },
+
+    "your_contributions": [
+      "Developed a memory-efficient k-mer encoding pipeline for 8,928-dimensional feature space",
+      "Implemented a Conv1D + Attention model in PyTorch for hierarchical feature extraction",
+      "Conducted model auditing using SHAP to ensure learning from biological motifs rather than taxonomic labels",
+      "Resolved critical memory and dimension errors in the XAI pipeline for sparse genomic data",
+      "Engineered a multi-label classification system for 14 distinct Virulence Factor categories"
+    ],
+
+    "results": {
+      "metrics": [
+        { "name": "Feature Space", "value": "8,928 k-mers" },
+        { "name": "VFC Classes", "value": "14 unique labels" },
+        { "name": "Memory Optimization", "value": "Full training/XAI on 12GB VRAM" }
+      ],
+      "evaluation": "Validated using SHAP GradientExplainer to confirm focus on pathogenic motifs vs. taxonomic bias."
+    },
+
+    "engineering_decisions": [
+      {
+        "decision": "K-mer encoding over One-Hot",
+        "reason": "Solves variable-length sequence issues and provides fixed-width input for high-dimensional efficiency."
+      },
+      {
+        "decision": "Excluding 'Genus' and 'Species' as features",
+        "reason": "Prevents data leakage where the model 'memorizes' genus names rather than learning universal biological signatures."
+      },
+      {
+        "decision": "SHAP GradientExplainer over Permutation",
+        "reason": "Significantly reduced memory footprint for high-dimensional (8k+) sequence data."
+      }
+    ],
+
+    "limitations": [
+      "Retraining required for significant shifts in microbial pangenomes",
+      "Potential for false negatives in extremely rare or novel virulence mechanisms"
+    ],
+
+    "future_work": [
+      "Integrating ESM-2 (Evolutionary Scale Modeling) embeddings",
+      "Cross-genus zero-shot generalization testing",
+      "Expanding to environmental metagenomic risk assessment"
+    ],
+
+    "stack": {
+      "languages": ["Python"],
+      "ml": ["PyTorch", "SHAP", "Scikit-learn"],
+      "bioinformatics": ["BioPython", "K-mer analysis"],
+      "infra": ["Google Colab", "Cuda/GPU Acceleration"]
+    },
+
+    "links": {
+      "github": "https://github.com/jravilab/pathogenic-features",
+      "paper": "https://jravilab.github.io/project/pathogenic-features/",
+      "demo": null
+    },
+
+    "short_card": {
+      "id": "pathogen-ml",
+      "title": "Bacterial Pathogenic Feature Discovery",
+      "tagline": "Sequence-based DL for virulence factor classification and pathogenicity prediction",
+      "domain": ["Bioinformatics", "ML", "Proteomics"],
+      "role": "Computational Researcher / ML Engineer",
+      "stack": ["Python", "PyTorch", "SHAP", "Genomics"],
+      "key_metric": {
+        "label": "K-mer Dimensions",
+        "value": "8,928"
+      },
+      "secondary_metric": {
+        "label": "VFC Targets",
+        "value": "14 Labels"
+      },
+      "status": "Ongoing Research (J. Ravi Lab)",
+      "year": 2026,
+      "links": {
+        "details": "/projects/pathogenic-features",
+        "github": "https://github.com/...",
+        "demo": null
+      }
+    }
+  },
+  {
+    "id": "istanbul-and-i-tracking-system",
+    "title": "Istanbul&I Internal Tracking & Management System",
+    "summary": "An internal web-based system replacing fragmented Excel workflows with a centralized, role-based platform for managing members, projects, events, and organizational data at scale.",
+
+    "problem": {
+      "description": "The organization relied on disconnected Excel sheets and manual processes, causing data inconsistency, poor traceability, and significant operational overhead.",
+      "constraints": [
+        "Non-technical staff as primary users",
+        "High risk of data inconsistency from manual entry",
+        "Need for historical tracking and accountability",
+        "Limited budget and infrastructure"
+      ]
+    },
+
+    "system_overview": {
+      "type": "Production internal management system",
+      "input": "Member data, attendance records, project participation, event logs",
+      "output": "Centralized dashboards, reports, and auditable records via web interface"
+    },
+
+    "architecture": {
+      "diagram": "/images/istanbul-i-arch.svg",
+      "components": [
+        "Django backend with MVC architecture",
+        "Relational database schema (users, roles, events, projects)",
+        "Role-based access control (RBAC)",
+        "CRUD workflows with validation",
+        "Admin dashboards and reporting views"
+      ]
+    },
+
+    "your_contributions": [
+      "Designed and implemented the complete backend system from scratch",
+      "Modeled relational database schema to replace Excel-based workflows",
+      "Implemented role-based access control for admins, coordinators, and staff",
+      "Built reporting and tracking views for organizational oversight",
+      "Deployed and maintained the system for real-world organizational use"
+    ],
+
+    "results": {
+      "metrics": [
+        { "name": "Active Users", "value": "1,800+" },
+        { "name": "Managed Members", "value": "200+" },
+        { "name": "Operational Time Reduction", "value": "~60%" },
+        { "name": "Process Speed Improvement", "value": "~40%" }
+      ],
+      "evaluation": "Measured via internal process time comparisons before and after system adoption"
+    },
+
+    "engineering_decisions": [
+      {
+        "decision": "Use Django over lightweight frameworks",
+        "reason": "Rapid development with built-in admin, ORM, and authentication"
+      },
+      {
+        "decision": "Relational database design",
+        "reason": "Strong data integrity, relationships, and auditability requirements"
+      }
+    ],
+
+    "limitations": [
+      "UI optimized for internal use rather than public-facing polish",
+      "Limited analytics automation beyond core reporting"
+    ],
+
+    "future_work": [
+      "Advanced analytics dashboards",
+      "Exportable reports for external stakeholders",
+      "API layer for integration with external systems"
+    ],
+
+    "stack": {
+      "languages": ["Python"],
+      "backend": ["Django"],
+      "database": ["SQL / MySQL"],
+      "frontend": ["HTML", "CSS", "Bootstrap"],
+      "infra": ["Linux server"]
+    },
+
+    "links": {
+      "github": null,
+      "paper": null,
+      "demo": null
+    },
+
+    "short_card": {
+      "id": "istanbul-i-tracking",
+      "title": "Istanbul&I Tracking System",
+      "tagline": "Centralized internal system replacing Excel workflows for a large NGO",
+      "domain": ["Backend", "Data Management", "Systems Engineering"],
+      "role": "Backend Engineer",
+      "stack": ["Python", "Django", "SQL", "Bootstrap"],
+      "key_metric": {
+        "label": "Active Users",
+        "value": "1,800+"
+      },
+      "secondary_metric": {
+        "label": "Operational Time Reduction",
+        "value": "~60%"
+      },
+      "status": "Production",
+      "year": 2023,
+      "links": {
+        "details": "/projects/istanbul-i-tracking",
+        "github": null,
+        "demo": null
+      }
+    }
+  },
+  {
+    "id": "air-quality-multivariate-forecasting",
+
+    "title": "Multivariate Air Quality Forecasting with NeuralForecast",
+
+    "summary": "Thesis project on multivariate time-series forecasting of air pollutants (PM10, NO2, SO2, O3) using NeuralForecast deep learning models with rich meteorological and temporal features.",
+
+    "problem": {
+      "description": "Forecasting multiple air pollutants several days ahead using heterogeneous meteorological and temporal signals under non-stationary and noisy conditions.",
+      "constraints": [
+        "Strong seasonality and concept drift",
+        "Highly correlated multivariate targets",
+        "Missing values and sensor noise",
+        "Limited robustness of classical statistical models"
+      ]
+    },
+
+    "system_overview": {
+      "type": "Research-grade ML forecasting pipeline",
+      "input": "Historical pollutant concentrations, weather variables, temporal encodings, lagged and rolling features",
+      "output": "7-day ahead multivariate pollutant forecasts"
+    },
+
+    "architecture": {
+      "diagram": null,
+      "components": [
+        "Time-series data preprocessing and cleaning",
+        "Feature engineering (lags, rolling windows, calendar features)",
+        "NeuralForecast deep learning models",
+        "Model training and evaluation pipeline",
+        "Result analysis and visualization"
+      ]
+    },
+
+    "your_contributions": [
+      "Formulated the forecasting problem and experimental setup",
+      "Designed multivariate feature engineering strategy (54 features)",
+      "Implemented NeuralForecast models for multi-horizon prediction",
+      "Handled non-stationarity and temporal splits correctly",
+      "Evaluated deep models against classical and recurrent baselines",
+      "Documented methodology and results as a bachelor thesis"
+    ],
+
+    "results": {
+      "metrics": [
+        { "name": "MAE", "value": "18% improvement over baseline models" },
+        { "name": "Forecast Horizon", "value": "7 days ahead" }
+      ],
+      "evaluation": "Rolling-origin evaluation comparing NeuralForecast models against ARIMA and LSTM baselines on held-out temporal splits"
+    },
+
+    "engineering_decisions": [
+      {
+        "decision": "Use NeuralForecast instead of custom model training",
+        "reason": "Provides optimized, research-backed implementations for multi-horizon deep time-series forecasting"
+      },
+      {
+        "decision": "Multivariate forecasting instead of independent univariate models",
+        "reason": "Captures cross-pollutant dependencies and shared temporal dynamics"
+      }
+    ],
+
+    "limitations": [
+      "Performance degradation during extreme or unseen weather patterns",
+      "Retraining required to adapt to long-term distribution shifts",
+      "Deterministic forecasts without uncertainty estimates"
+    ],
+
+    "future_work": [
+      "Probabilistic forecasting using quantile or distributional outputs",
+      "Concept drift detection and adaptive retraining",
+      "Extension to spatial or graph-based air quality modeling"
+    ],
+
+    "stack": {
+      "languages": ["Python"],
+      "ml": ["PyTorch", "NeuralForecast"],
+      "data": ["Pandas", "NumPy"],
+      "visualization": ["Matplotlib", "Plotly"]
+    },
+
+    "links": {
+      "github": null,
+      "paper": "Bachelor Thesis (in preparation / under review)",
+      "demo": null
+    },
+
+    "short_card": {
+      "id": "air-quality-forecast",
+      "title": "Air Quality Forecasting (Thesis)",
+      "tagline": "7-day multivariate air pollutant forecasting with deep time-series models",
+      "domain": ["Machine Learning", "Time-Series", "Research"],
+      "role": "ML Researcher",
+      "stack": ["Python", "PyTorch", "NeuralForecast"],
+      "key_metric": {
+        "label": "Forecast Horizon",
+        "value": "7 days"
+      },
+      "secondary_metric": {
+        "label": "MAE Improvement",
+        "value": "+18%"
+      },
+      "status": "Research / Thesis",
+      "year": 2024,
+      "links": {
+        "details": "/projects/air-quality-forecast",
+        "github": null,
+        "demo": null
+      }
+    }
+  },
+  {
+    "id": "vehicle-detection-license-plate-recognition",
+
+    "title": "Vehicle Detection & License Plate Recognition Pipeline",
+
+    "summary": "End-to-end computer vision system for vehicle detection and automatic license plate recognition using YOLO, RCNN, and OCR models.",
+
+    "problem": {
+      "description": "Automatically detecting vehicles and extracting license plate text from images under varying lighting, angles, and noise conditions.",
+      "constraints": [
+        "Small and low-resolution license plates",
+        "Occlusion and motion blur",
+        "Different lighting and weather conditions",
+        "High precision required for OCR accuracy"
+      ]
+    },
+
+    "system_overview": {
+      "type": "Computer vision inference pipeline",
+      "input": "Images containing vehicles",
+      "output": "Vehicle bounding boxes, license plate localization, and extracted plate text"
+    },
+
+    "architecture": {
+      "diagram": null,
+      "components": [
+        "Image preprocessing",
+        "Vehicle detection (YOLO, RCNN)",
+        "License plate detection",
+        "Optical Character Recognition (EasyOCR, PaddleOCR)",
+        "Evaluation and visualization tools"
+      ]
+    },
+
+    "your_contributions": [
+      "Designed the full end-to-end vehicle and license plate recognition pipeline",
+      "Implemented YOLO and RCNN models for vehicle detection",
+      "Integrated multiple OCR engines for license plate text extraction",
+      "Built modular data loading, feature extraction, and evaluation code",
+      "Evaluated models using mAP, IoU, Precision, Recall, and F1-score",
+      "Organized a clean, extensible project structure suitable for research or production"
+    ],
+
+    "results": {
+      "metrics": [
+        { "name": "YOLO mAP@0.5", "value": "0.89" },
+        { "name": "YOLO mAP@0.75", "value": "0.78" },
+        { "name": "RCNN mAP", "value": "0.78" },
+        { "name": "OCR Character Accuracy", "value": "94%" }
+      ],
+      "evaluation": "Evaluated detection models using standard object detection metrics and OCR accuracy on held-out test images"
+    },
+
+    "engineering_decisions": [
+      {
+        "decision": "Use YOLO alongside RCNN",
+        "reason": "Balance between real-time performance (YOLO) and detection robustness (RCNN)"
+      },
+      {
+        "decision": "Integrate multiple OCR engines",
+        "reason": "Improve robustness of text extraction across different plate qualities"
+      }
+    ],
+
+    "limitations": [
+      "Performance degrades on extremely low-resolution or heavily occluded plates",
+      "Inference optimized for images rather than video streams",
+      "OCR accuracy sensitive to plate angle and motion blur"
+    ],
+
+    "future_work": [
+      "Real-time video stream processing",
+      "Vehicle tracking across frames",
+      "REST API for inference deployment",
+      "Edge deployment optimization"
+    ],
+
+    "stack": {
+      "languages": ["Python"],
+      "ml": ["PyTorch", "YOLO", "RCNN"],
+      "cv": ["OpenCV"],
+      "ocr": ["EasyOCR", "PaddleOCR"],
+      "tooling": ["Jupyter", "Matplotlib"]
+    },
+
+    "links": {
+      "github": "https://github.com/...",
+      "paper": null,
+      "demo": null
+    },
+
+    "short_card": {
+      "id": "vehicle-lpr",
+      "title": "Vehicle & License Plate Recognition",
+      "tagline": "End-to-end vehicle detection and license plate OCR pipeline",
+      "domain": ["Computer Vision", "Deep Learning", "OCR"],
+      "role": "Computer Vision Engineer",
+      "stack": ["Python", "PyTorch", "YOLO", "RCNN", "EasyOCR", "PaddleOCR"],
+      "key_metric": {
+        "label": "YOLO mAP@0.5",
+        "value": "0.89"
+      },
+      "secondary_metric": {
+        "label": "OCR Accuracy",
+        "value": "94%"
+      },
+      "status": "Research / Academic Project",
+      "year": 2024,
+      "links": {
+        "details": "/projects/vehicle-license-plate-recognition",
+        "github": "https://github.com/...",
+        "demo": null
+      }
+    }
+  },
+  {
+    "id": "parem-academy-website",
+    "title": "Parem Academy Corporate Platform",
+    "summary": "High-velocity corporate interface for an outsourcing firm, designed to bridge sophisticated backend logic with experimental frontend experiences.",
+
+    "problem": {
+      "description": "The need to demonstrate 'Architectural Excellence' and 'Design-First Execution' to high-level stakeholders (CTOs, Founders, VCs) who require stability without sacrificing innovation.",
+      "constraints": [
+        "Must ensure 99.9% production uptime",
+        "Requires 'experimental' UI feel while remaining functional",
+        "Strict modularity for seamless handovers"
+      ]
+    },
+
+    "system_overview": {
+      "type": "Corporate Portfolio & Service Interface",
+      "input": "Client inquiries, Portfolio case studies",
+      "output": "Interactive UI/UX showcase, Service lead generation"
+    },
+
+    "architecture": {
+      "diagram": "/images/parem-academy-arch.svg",
+      "components": [
+        "Next.js App Router (Core Framework)",
+        "Framer Motion (Interactive/Experimental UI)",
+        "TanStack Query (State Management)",
+        "Supabase (Auth/Storage Infrastructure)",
+        "Redis (Caching/Real-time performance)"
+      ]
+    },
+
+    "your_contributions": [
+      "Implemented the 'Golden Stack' architecture optimized for speed and AI integration",
+      "Developed the 'Design-First' UI using Tailwind CSS and Framer Motion",
+      "Integrated the CI/CD pipeline for automated testing and deployment",
+      "Structured the codebase to be self-documenting for the internal Education Academy"
+    ],
+
+    "results": {
+      "metrics": [
+        { "name": "Uptime", "value": "99.9%" },
+        { "name": "Portfolio Items", "value": "8+ Major Projects" }
+      ],
+      "evaluation": "Successfully established as the digital HQ for the agency, showcasing capabilities in logistics, food-tech, and AI automation."
+    },
+
+    "engineering_decisions": [
+      {
+        "decision": "Framer Motion Integration",
+        "reason": "To deliver the 'experimental' feel required by the manifesto while maintaining technical stability."
+      },
+      {
+        "decision": "Supabase & Redis",
+        "reason": "To support high-velocity data needs and real-time caching for the 'Golden Stack'."
+      }
+    ],
+
+    "limitations": [
+      "High reliance on experimental UI libraries may impact older browser performance",
+      "Continuous maintenance required for the CI/CD pipeline"
+    ],
+
+    "future_work": [
+      "Expansion of the 'Education Academy' integration directly into the platform",
+      "Deeper integration of custom LLM agents for visitor interaction",
+      "Enhanced 3D modeling showcases via the web interface"
+    ],
+
+    "stack": {
+      "languages": ["TypeScript", "Python"],
+      "frontend": ["Next.js", "React", "Tailwind CSS", "Framer Motion"],
+      "backend": ["Node.js", "Supabase", "Redis", "PostgreSQL"],
+      "tools": ["TanStack Query", "Docker"]
+    },
+
+    "links": {
+      "github": "https://github.com/Parem-Academy",
+      "production": "https://paremacademy.com", 
+      "demo": null
+    },
+
+    "short_card": {
+      "id": "parem-academy",
+      "title": "Parem Academy Platform",
+      "tagline": "Bridging sophisticated logic with experimental UI",
+      "domain": ["Agency", "Portfolio", "High-Performance Web"],
+      "role": "CTO / Lead Developer",
+      "stack": ["Next.js", "Framer Motion", "Supabase", "Tailwind"],
+      "key_metric": {
+        "label": "Uptime",
+        "value": "99.9%"
+      },
+      "secondary_metric": {
+        "label": "Stack Type",
+        "value": "Golden Stack"
+      },
+      "status": "Production",
+      "year": 2026,
+      "links": {
+        "details": "/projects/parem-academy",
+        "github": "https://github.com/Parem-Academy",
+        "demo": "https://paremacademy.com"
+      }
+    }
+  },
+  {
+    "id": "sokak-lambasi-website",
+    "title": "Sokak Lambası NGO Platform",
+    "summary": "Production-ready, multi-lingual web platform digitizing operations for an NGO serving the homeless. Built with Next.js 16 to facilitate donations and volunteer management.",
+
+    "problem": {
+      "description": "The NGO required a digital presence to expand their reach, manage volunteer applications, and accept donations transparently without recurring infrastructure costs.",
+      "constraints": [
+        "Zero-budget hosting & maintenance (Pro bono project)",
+        "Multi-lingual audience (Turkish, Arabic, Russian, Persian, English)",
+        "High accessibility & SEO requirements"
+      ]
+    },
+
+    "system_overview": {
+      "type": "Static Web Application (SSR/SSG)",
+      "input": "Volunteer forms, Localization JSONs",
+      "output": "Responsive UI, Email notifications via EmailJS"
+    },
+
+    "architecture": {
+      "diagram": "/images/sokak-lambasi-arch.svg",
+      "components": [
+        "Next.js App Router (Frontend & Routing)",
+        "Tailwind CSS v4 (Styling System)",
+        "EmailJS (Serverless Form Handling)",
+        "i18n (Client-side Localization)",
+        "Vercel (Edge Deployment)"
+      ]
+    },
+
+    "your_contributions": [
+      "Architected the full frontend using Next.js 16 and React 19",
+      "Implemented a 5-language localization system using JSON dictionaries",
+      "Integrated serverless email functionality for volunteer applications",
+      "Designed a custom responsive UI system with Tailwind CSS v4"
+    ],
+
+    "results": {
+      "metrics": [
+        { "name": "Languages Supported", "value": "5" },
+        { "name": "Lighthouse Score", "value": "100 (Target)" }
+      ],
+      "evaluation": "Successfully deployed to production, serving as the main digital hub for an NGO managing 500k+ meals"
+    },
+
+    "engineering_decisions": [
+      {
+        "decision": "Next.js 16 & React 19",
+        "reason": "Leveraging latest SSR features for maximum SEO visibility and performance"
+      },
+      {
+        "decision": "EmailJS over Custom Backend",
+        "reason": "Eliminated backend maintenance costs for the NGO while maintaining functionality"
+      }
+    ],
+
+    "limitations": [
+      "Content updates require code changes (no CMS currently)",
+      "Dependency on third-party service (EmailJS) for forms"
+    ],
+
+    "future_work": [
+      "Integration of a Headless CMS for non-technical content updates",
+      "Real-time donation tracking dashboard",
+      "Expansion of language support (German planned)"
+    ],
+
+    "stack": {
+      "languages": ["TypeScript"],
+      "frontend": ["Next.js 16", "React 19", "Tailwind CSS 4"],
+      "tools": ["EmailJS", "ESLint", "Vercel"]
+    },
+
+    "links": {
+      "github": "https://github.com/...", 
+      "production": "https://sokaklambasi.vercel.app/",
+      "demo": null
+    },
+
+    "short_card": {
+      "id": "sokak-lambasi",
+      "title": "Sokak Lambası NGO Website",
+      "tagline": "Modern, multi-lingual digital platform for homeless aid",
+      "domain": ["Web Dev", "Social Impact", "Frontend"],
+      "role": "Lead Developer",
+      "stack": ["Next.js 16", "TypeScript", "Tailwind", "EmailJS"],
+      "key_metric": {
+        "label": "Languages",
+        "value": "5 Supported"
+      },
+      "secondary_metric": {
+        "label": "Impact",
+        "value": "500k+ Meals"
+      },
+      "status": "Production",
+      "year": 2026,
+      "links": {
+        "details": "/projects/sokak-lambasi",
+        "github": "https://github.com/...",
+        "demo": "https://sokaklambasi.vercel.app/"
+      }
+    }
+  }
+
+]

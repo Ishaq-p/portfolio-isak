@@ -19,8 +19,19 @@
   }
 }
 
+/* globals.css */
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+}
+
 body {
-  background: var(--background);
+  background: white;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
