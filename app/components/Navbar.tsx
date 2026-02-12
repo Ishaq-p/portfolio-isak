@@ -11,6 +11,7 @@ export default function Navbar() {
         <div className="hidden md:flex items-center space-x-10 text-sm font-semibold uppercase tracking-wider text-slate-600">
           <Link href="/" className="hover:text-indigo-600 transition-colors">Home</Link>
           <Link href="/portfolio" className="hover:text-indigo-600 transition-colors">Portfolio</Link>
+          <Link href="/ishaqCV_1-full.pdf" className="hover:text-indigo-600 transition-colors">Resume</Link>
           {/* <a href="#contact-section" className="hover:text-indigo-600 transition-colors">Contact</a> */}
           {/* Auth buttons can be injected here */}
         </div>

@@ -1,0 +1,88 @@
+<svg width="800" height="500" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="500" rx="24" fill="#05080a"/>
+  <rect x="0.5" y="0.5" width="799" height="499" rx="23.5" stroke="#ffffff" stroke-opacity="0.05"/>
+  <path d="M0 100 H800 M0 200 H800 M0 300 H800 M0 400 H800" stroke="#ffffff" stroke-opacity="0.02" stroke-dasharray="4 4"/>
+  <path d="M100 0 V500 M200 0 V500 M300 0 V500 M400 0 V500 M500 0 V500 M600 0 V500 M700 0 V500" stroke="#ffffff" stroke-opacity="0.02" stroke-dasharray="4 4"/>
+
+  <g id="Frontend">
+    <rect x="40" y="160" width="140" height="180" rx="12" fill="#ffffff" fill-opacity="0.02" stroke="#6366f1" stroke-opacity="0.5"/>
+    <text x="110" y="145" text-anchor="middle" fill="#6366f1" font-family="monospace" font-size="10" font-weight="900" style="letter-spacing: 0.2em;">MULTI_ROLE_SPA</text>
+    
+    <rect x="55" y="180" width="110" height="30" rx="4" fill="#0f172a" stroke="#1e293b"/>
+    <text x="110" y="198" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">Client Dashboard</text>
+    
+    <rect x="55" y="225" width="110" height="30" rx="4" fill="#0f172a" stroke="#6366f1" stroke-opacity="0.6"/>
+    <text x="110" y="243" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="9">Courier App (GPS)</text>
+    
+    <rect x="55" y="270" width="110" height="30" rx="4" fill="#0f172a" stroke="#1e293b"/>
+    <text x="110" y="288" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">Admin Panel</text>
+
+    <text x="110" y="325" text-anchor="middle" fill="#6366f1" font-family="monospace" font-size="9">React 18 + Vite</text>
+  </g>
+
+  <path d="M180 250 H240" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <g id="Security_Gate">
+    <rect x="240" y="180" width="100" height="140" rx="8" fill="#6366f1" fill-opacity="0.1" stroke="#6366f1"/>
+    <text x="290" y="170" text-anchor="middle" fill="#6366f1" font-family="monospace" font-size="10" font-weight="900">DUAL_AUTH_GATE</text>
+    
+    <path d="M250 210 H330" stroke="#6366f1" stroke-opacity="0.3" stroke-dasharray="2 2"/>
+    <text x="290" y="200" text-anchor="middle" fill="#c7d2fe" font-family="monospace" font-size="8">JWT (Internal)</text>
+    <text x="290" y="230" text-anchor="middle" fill="#c7d2fe" font-family="monospace" font-size="8">HMAC (Public API)</text>
+    
+    <rect x="260" y="260" width="60" height="40" rx="4" fill="#0f172a" stroke="#6366f1" stroke-opacity="0.5"/>
+    <text x="290" y="283" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="8">GUARD</text>
+  </g>
+
+  <path d="M340 250 H380" stroke="#6366f1" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <g id="Backend_Core">
+    <rect x="380" y="100" width="220" height="300" rx="16" fill="#ffffff" fill-opacity="0.02" stroke="#ffffff" stroke-opacity="0.2"/>
+    <text x="490" y="85" text-anchor="middle" fill="#ffffff" fill-opacity="0.6" font-family="monospace" font-size="10" font-weight="900" style="letter-spacing: 0.2em;">NODEJS_EXPRESS_CORE</text>
+
+    <rect x="400" y="130" width="180" height="60" rx="6" fill="#05080a" stroke="#6366f1" stroke-opacity="0.4"/>
+    <text x="490" y="155" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-size="10" font-weight="700">7-State Order Workflow</text>
+    <text x="490" y="175" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="8">(ACID State Machine)</text>
+
+    <rect x="400" y="210" width="180" height="60" rx="6" fill="#05080a" stroke="#6366f1" stroke-opacity="0.4"/>
+    <text x="490" y="235" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-size="10" font-weight="700">Dynamic Pricing Engine</text>
+    <text x="490" y="255" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="8">(Dist/Time/Weight)</text>
+
+    <rect x="400" y="290" width="180" height="60" rx="6" fill="#05080a" stroke="#6366f1" stroke-opacity="0.4"/>
+    <text x="490" y="315" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-size="10" font-weight="700">Courier Assignment Service</text>
+  </g>
+
+  <g id="RealTime_Hub">
+    <path d="M490 130 V60 H640" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#arrow)"/>
+    <path d="M640 90 H530 V130" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#arrow)"/>
+    
+    <rect x="640" y="40" width="120" height="80" rx="12" fill="#6366f1" fill-opacity="0.15" stroke="#6366f1"/>
+    <text x="700" y="30" text-anchor="middle" fill="#6366f1" font-family="monospace" font-size="10" font-weight="900">SSE_EVENT_STREAM</text>
+    <text x="700" y="65" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="9" font-weight="700">Live GPS Updates</text>
+    <text x="700" y="85" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="9" font-weight="700">Order Status Events</text>
+    <text x="700" y="105" text-anchor="middle" fill="#c7d2fe" font-family="monospace" font-size="8">Server → Client</text>
+  </g>
+
+  <g id="Data_Layer">
+    <path d="M600 250 H640" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.2"/>
+    
+    <rect x="640" y="220" width="100" height="60" rx="6" fill="#0f172a" stroke="#ffffff" stroke-opacity="0.3"/>
+    <text x="690" y="255" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="11" font-weight="700">Prisma ORM</text>
+
+    <path d="M690 280 V310" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.2"/>
+
+    <path d="M640 330 C640 318.954 662.386 310 690 310 C717.614 310 740 318.954 740 330 V380 C740 391.046 717.614 400 690 400 C662.386 400 640 391.046 640 380 V330 Z" fill="#0f172a" stroke="#6366f1" stroke-opacity="0.5"/>
+    <path d="M640 330 C640 341.046 662.386 350 690 350 C717.614 350 740 341.046 740 330" stroke="#6366f1" stroke-opacity="0.3"/>
+    <text x="690" y="360" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="11" font-weight="700">PostgreSQL</text>
+    <text x="690" y="380" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="8">Relational Data</text>
+  </g>
+
+  <rect x="250" y="450" width="300" height="30" rx="15" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.1"/>
+  <text x="400" y="468" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9" font-weight="700">DOCKER_CONTAINERIZED // SERVICE_ORIENTED // REST+WS</text>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10V0Z" fill="#6366f1"/>
+    </marker>
+  </defs>
+</svg>

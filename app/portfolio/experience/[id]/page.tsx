@@ -25,19 +25,11 @@ export default function ExperiencePage({ params }: { params: Promise<{ id: strin
       {/* 1. KINETIC BACKGROUND: The Audit Grid */}
       <div className="fixed inset-0 -z-10 opacity-20 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px]" />
       <div className="fixed inset-0 -z-10 bg-gradient-to-b from-indigo-500/5 via-transparent to-transparent" />
-      
-      {/* 2. SCANNER BAR: Visual Polish */}
-      <motion.div 
-        initial={{ top: "-10%" }}
-        animate={{ top: "110%" }}
-        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-        className="fixed left-0 right-0 h-[2px] bg-indigo-500/20 shadow-[0_0_15px_rgba(99,102,241,0.5)] z-50 pointer-events-none"
-      />
 
       <div className="max-w-6xl mx-auto px-6 py-12">
         {/* TOP NAVIGATION */}
         <nav className="flex justify-between items-center mb-20">
-          <Link href="/portfolio" className="group flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.6em] text-slate-500 hover:text-white transition-all">
+          <Link href="/portfolio#experiences" className="group flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.6em] text-slate-500 hover:text-white transition-all">
             <LuArrowLeft className="group-hover:-translate-x-1 transition-transform" /> BACK_TO_SYSTEM_ROOT
           </Link>
           <div className="h-px flex-grow mx-8 bg-white/5" />
@@ -80,69 +72,64 @@ export default function ExperiencePage({ params }: { params: Promise<{ id: strin
         </header>
 
         {/* CONTENT GRID */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-20">
-          
-          <div className="lg:col-span-7 space-y-24">
-            {/* 01_MISSION_LOG */}
-            <section>
-              <h2 className="text-[11px] font-black uppercase tracking-[0.5em] text-indigo-500 mb-8 flex items-center gap-4">
-                <LuTerminal /> 01_MISSION_LOG
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mt-12">
+          {/* LEFT COLUMN: THE CORE DOSSIER */}
+          <div className="lg:col-span-8 space-y-12">
+            
+            {/* 01_EXECUTIVE_SUMMARY: High Contrast Card */}
+            <section className="bg-white rounded-[2rem] p-10 text-slate-900 shadow-2xl">
+              <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-indigo-600 mb-6 flex items-center gap-3">
+                <LuTerminal className="text-sm" /> 01_MISSION_LOG
               </h2>
-              <p className="text-2xl md:text-3xl font-medium text-slate-100 leading-tight mb-8">
+              <p className="text-3xl md:text-4xl font-black tracking-tighter leading-[1.1] mb-8">
                 {role.summary}
               </p>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-2">
                 {role.domain.map((d: string) => (
-                  <span key={d} className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[9px] font-black uppercase tracking-widest text-slate-400">
+                  <span key={d} className="px-3 py-1 bg-slate-100 border border-slate-200 rounded-md text-[9px] font-black uppercase tracking-widest text-slate-600">
                     {d}
                   </span>
                 ))}
               </div>
             </section>
 
-            {/* 02_IMPACT_METRICS */}
-            <section>
-              <h2 className="text-[11px] font-black uppercase tracking-[0.5em] text-indigo-500 mb-12 flex items-center gap-4">
-                <LuActivity /> 02_EXECUTION_RESULTS
+            {/* 02_IMPACT_FEED: Vertical Feed logic */}
+            <section className="space-y-6">
+              <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-500 px-4">
+                02_EXECUTION_RESULTS
               </h2>
-              <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {role.key_impact.map((impact: string, i: number) => (
-                  <motion.div 
-                    key={i}
-                    whileHover={{ x: 10 }}
-                    className="p-8 bg-white/[0.02] border border-white/5 rounded-3xl hover:bg-white/[0.04] hover:border-indigo-500/30 transition-all flex gap-8 items-start"
-                  >
-                    <span className="text-3xl font-black text-indigo-600/30">0{i+1}</span>
-                    <p className="text-lg text-slate-300 font-medium pt-1">{impact}</p>
-                  </motion.div>
+                  <div key={i} className="p-8 bg-white/5 border border-white/5 rounded-3xl hover:bg-white/[0.07] transition-all">
+                    <span className="text-[9px] font-mono text-indigo-500 mb-4 block">SEGMENT_0{i+1}</span>
+                    <p className="text-slate-200 font-medium leading-relaxed">{impact}</p>
+                  </div>
                 ))}
               </div>
             </section>
           </div>
 
-          {/* 03_SYSTEM_TECH */}
-          <aside className="lg:col-span-5 space-y-12">
-            <div className="sticky top-32 p-10 bg-indigo-600/5 border border-indigo-500/10 rounded-[2.5rem] space-y-12 backdrop-blur-xl">
-              <div>
-                <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-indigo-400 mb-8 flex items-center gap-3">
-                  <LuCpu /> Infrastructure_Stack
-                </h3>
-                <div className="grid grid-cols-2 gap-4">
-                  {role.stack.map((s: string) => (
-                    <div key={s} className="p-4 bg-black/40 border border-white/5 rounded-2xl font-mono text-[11px] text-slate-400 uppercase tracking-tighter">
-                      <span className="text-indigo-500 mr-2">#</span>{s}
-                    </div>
-                  ))}
-                </div>
+          {/* RIGHT COLUMN: THE TECH STACK RACK */}
+          <aside className="lg:col-span-4 space-y-6">
+            <div className="sticky top-12 p-8 bg-[#0a0f14] border border-white/5 rounded-[2rem] shadow-2xl">
+              <h3 className="text-[9px] font-black uppercase tracking-[0.4em] text-indigo-400 mb-8 flex items-center gap-3">
+                <LuCpu /> INFRASTRUCTURE_SPEC
+              </h3>
+              
+              <div className="space-y-3">
+                {role.stack.map((s: string) => (
+                  <div key={s} className="group flex items-center justify-between p-4 bg-white/[0.02] hover:bg-indigo-500/10 border border-white/5 rounded-xl transition-all">
+                    <span className="font-mono text-[11px] text-slate-400 uppercase tracking-tighter group-hover:text-white">
+                      <span className="text-indigo-500 mr-2 opacity-40">#</span>{s}
+                    </span>
+                    <LuBinary className="text-white/10 group-hover:text-indigo-400 transition-colors" />
+                  </div>
+                ))}
               </div>
 
-              <div className="pt-8 border-t border-white/5">
-                <a 
-                  href={role.links.organization} 
-                  target="_blank"
-                  className="flex items-center justify-center gap-3 w-full py-5 bg-white text-black font-black uppercase text-[10px] tracking-[0.3em] rounded-2xl hover:bg-indigo-600 hover:text-white transition-all shadow-xl shadow-white/5"
-                >
-                  ORG_INTERFACE <LuExternalLink />
+              <div className="mt-12 pt-8 border-t border-white/5">
+                <a href={role.links.organization} className="w-full flex items-center justify-center gap-4 py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-black uppercase text-[10px] tracking-[0.4em] rounded-xl transition-all shadow-lg shadow-indigo-600/20">
+                  ORG_UPLINK <LuExternalLink />
                 </a>
               </div>
             </div>

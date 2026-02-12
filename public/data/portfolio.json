@@ -50,7 +50,7 @@
       "location": "Remote (USA)",
       "type": "Research",
       "duration": {
-        "start": "2023-06",
+        "start": "2024-07",
         "end": "Present"
       },
       "summary": "Conducted applied ML research in computational biology, improving protein function prediction pipelines and developing species classification models.",
@@ -74,17 +74,17 @@
       "has_details_page": true,
       "links": {
         "details": "/portfolio/experience/jravi-research-assistant",
-        "organization": "https://www.colorado.edu"
+        "organization": "https://jravilab.github.io/"
       }
     },
     {
       "id": "parem-backend-engineer",
-      "role": "Backend Engineer",
+      "role": "Software Engineer",
       "organization": "Parem Academy",
       "location": "Istanbul, Turkey",
       "type": "Startup / Training-to-Production",
       "duration": {
-        "start": "2024-09",
+        "start": "2025-09",
         "end": "Present"
       },
       "summary": "Backend engineer in a startup environment, contributing to production-grade applications and data-driven platforms.",
@@ -107,7 +107,7 @@
       "has_details_page": true,
       "links": {
         "details": "/portfolio/experience/parem-backend-engineer",
-        "organization": "https://www.parem.com"
+        "organization": "https://www.paremacademy.com"
       }
     },
     {
@@ -117,8 +117,8 @@
       "location": "Istanbul, Turkey",
       "type": "Part-time",
       "duration": {
-        "start": "2022-10",
-        "end": "2024-06"
+        "start": "2023-09",
+        "end": "2025-09"
       },
       "summary": "Led development of internal systems and data platforms supporting NGO operations and member analytics.",
       "key_impact": [
@@ -141,7 +141,7 @@
       "has_details_page": true,
       "links": {
         "details": "/portfolio/experience/istanbul-i-it-coordinator",
-        "organization": "https://istanbulandi.org"
+        "organization": "https://istanbulandi.org.tr"
       }
     },
     {
@@ -151,8 +151,8 @@
       "location": "Turkey",
       "type": "Internship",
       "duration": {
-        "start": "2024-02",
-        "end": "2024-06"
+        "start": "2025-02",
+        "end": "2025-08"
       },
       "summary": "Worked on maintaining and extending production platforms for multiple business clients.",
       "key_impact": [
@@ -172,7 +172,7 @@
       "has_details_page": false,
       "links": {
         "details": null,
-        "organization": "https://devsecure.com"
+        "organization": null
       }
     }
   ],

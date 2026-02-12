@@ -1,46 +1,48 @@
 "use client";
 import { motion } from "framer-motion";
 import { LuMapPin, LuCalendar, LuArrowRight } from "react-icons/lu";
+import Link from "next/link";
 
 export default function ExperienceCard({ exp }: { exp: any }) {
   return (
     <motion.div 
-      initial={{ opacity: 0, x: -20 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true }}
-      className="m-0  p-8 bg-white/[0.07] border border-white/5 rounded-3xl hover:border-indigo-500/30 transition-all"
+      className="relative p-5 bg-[#0a0f14] border-l-2 border-l-indigo-500 border-y border-r border-white/5 rounded-r-xl transition-all hover:bg-white/[0.02]"
     >
-      {/* Sidebar: Temporal & Type Metadata [cite: 2026-02-08] */}
-      <div className="md:col-span-4 space-y-4 h-full flex flex-col justify-between">
-        <div className="space-y-1">
-          <p className="text-indigo-400 font-mono w-full text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
-            <LuCalendar className="text-xs" />
-            {exp.duration.start} — {exp.duration.end}
-          </p>
-          <h3 className="text-2xl font-black text-white leading-tight">{exp.role}</h3>
-          <p className="text-slate-500 text-[10px] uppercase tracking-[0.2em] font-black italic">
-            <span className="py-0 text-slate-900 bg-slate-500 ">{exp.organization}</span> // {exp.location}
-          </p>
+      <div className="flex flex-col h-full justify-between gap-4">
+        {/* Header: Roles & Dates */}
+        <div>
+          <div className="flex justify-between items-start mb-1">
+            <p className="text-indigo-500 font-mono text-[8px] font-black uppercase tracking-widest">
+              {exp.duration.start} // {exp.duration.end}
+            </p>
+            <span className="text-xs font-mono text-white/10 font-black">0{exp.index}</span>
+          </div>
+          <h3 className="text-lg font-black text-white leading-none mb-2 tracking-tight">
+            {exp.role}
+          </h3>
+          <div className="inline-block px-2 py-0.5 bg-white text-black text-[9px] font-black uppercase tracking-tighter skew-x-[-10deg]">
+            {exp.organization}
+          </div>
         </div>
 
-        <div className="flex flex-wrap gap-2">
-          <span className="px-2 py-0.5 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-[8px] font-black uppercase rounded-sm">
-            {exp.type}
-          </span>
-          <span className={`px-2 py-0.5 border text-[8px] font-black uppercase rounded-sm ${
-            exp.level === "Core" ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" : "bg-slate-500/10 text-slate-400 border-slate-500/20"
-          }`}>
-            {exp.level}_Node
-          </span>
-        </div>
+        {/* Technical Metadata Row */}
+        <div className="flex items-center justify-between pt-3 border-t border-white/5">
+          <div className="flex gap-2">
+             <span className="text-[7px] text-indigo-400 font-mono border border-indigo-500/20 px-1 uppercase">
+               {exp.type}
+             </span>
+             <span className="text-[7px] text-emerald-400 font-mono border border-emerald-500/20 px-1 uppercase">
+               {exp.level}
+             </span>
+          </div>
 
-        {exp.has_details_page && (
-          <a href={exp.links.details} className="inline-flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-white hover:text-indigo-400 transition-colors pt-4">
-            DECODE_FULL_STORY <LuArrowRight />
-          </a>
-        )}
+          {exp.has_details_page && (
+            <Link href={exp.links.details} className="text-[8px] font-black text-white hover:text-indigo-400 uppercase tracking-widest flex items-center gap-1">
+              DECODE <LuArrowRight className="text-[10px]" />
+            </Link>
+          )}
+        </div>
       </div>
-
     </motion.div>
   );
 }

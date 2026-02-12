@@ -1,8 +1,8 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedinIn, FaEnvelope } from "react-icons/fa6";
-import { LuBinary, LuActivity, LuDna, LuServer } from "react-icons/lu";
+import { LuBinary, LuActivity, LuDna, LuServer, LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import ProjectCard from "../components/ProjectCard";
 import FilterJumble from "../components/FilterJumble";
 import ExperienceCard from "../components/ExperienceCard";
@@ -12,13 +12,30 @@ import ConnectionProtocol from "../components/ConnectionProtocol";
 export default function Portfolio() {
   const [data, setData] = useState<any>(null);
   const [projects, setprojects] = useState<any>(null);
+  const [scrollProgress, setScrollProgress] = useState(0); // [cite: 2026-02-10]
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeFilter, setActiveFilter] = useState("ALL");
 
-// Inside your Portfolio component
-const [activeFilter, setActiveFilter] = useState("ALL");
+  const filteredProjects = projects?.filter((p: any) => 
+    activeFilter === "ALL" || p.short_card.domain.includes(activeFilter)
+  );
 
-const filteredProjects = projects?.filter((p: any) => 
-  activeFilter === "ALL" || p.short_card.domain.includes(activeFilter)
-);
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      const progress = (scrollLeft / (scrollWidth - clientWidth)) * 100;
+      setScrollProgress(progress);
+    }
+  };
+  // Slider Navigation Logic [cite: 2026-02-10]
+  const scroll = (direction: "left" | "right") => {
+    if (scrollRef.current) {
+      const { scrollLeft, clientWidth } = scrollRef.current;
+      const scrollTo = direction === "left" ? scrollLeft - clientWidth : scrollLeft + clientWidth;
+      scrollRef.current.scrollTo({ left: scrollTo, behavior: "smooth" });
+    }
+  };
+
 
 // Elliptical electron paths with varying rotations
 const electrons = [
@@ -41,7 +58,27 @@ const electrons = [
       .then((res) => res.json())
       .then((json) => setprojects(json))
       .catch((err) => console.error("PF_LOAD_ERROR:", err));
+
+      
   }, []);
+  useEffect(() => {
+    // Check if the URL contains a hash on mount
+    if (window.location.hash === "#projects") {
+      const element = document.getElementById("projects");
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [projects]);
+  useEffect(() => {
+    // Check if the URL contains a hash on mount
+    if (window.location.hash === "#experiences") {
+      const element = document.getElementById("experiences");
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [data]);
 
     // Wait for BOTH data sources to be populated
     if (!data || !projects) {
@@ -171,39 +208,77 @@ const electrons = [
       </section>
 
       {/* 3. PROJECTS: Lab Research & Production Platforms */}
-      <section className="py-24 md:py-32 max-w-7xl mx-auto px-6">
+      <section id="projects" className="py-12 md:py-18 max-w-7xl mx-auto px-6 overflow-hidden">
         <header className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div className="space-y-4">
-            <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-600">Technical_Impact_Archive</h2>
+            <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-600">View_B // System_Slider</h2>
             <p className="text-4xl md:text-5xl font-black tracking-tighter text-slate-900 leading-[0.9]">
               Production Systems & <br /> Applied Research.
             </p>
           </div>
-
-
-            {/* Filter Jumble */}   
-          <FilterJumble 
-            projects={projects} 
-            activeFilter={activeFilter} 
-            setActiveFilter={setActiveFilter} 
-          />
+          <FilterJumble projects={projects} activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
         </header>
 
-        {/* CONDENSED 3-COLUMN GRID [cite: 2025-11-29, 2026-02-08] */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-          {filteredProjects?.map((project: any) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
+        <div className="relative group">
+          {/* Scrollable Container with Peek Effect [cite: 2025-11-28] */}
+          <div 
+            ref={scrollRef}
+            onScroll={handleScroll} // [cite: 2026-02-10]
+            className="flex gap-4 lg:gap-6 justify-between overflow-x-auto overflow-y-hidden snap-x snap-mandatory no-scrollbar scroll-smooth items-stretch"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {filteredProjects?.map((project: any) => (
+              <div 
+                key={project.id} 
+                className="min-w-[85vw] md:min-w-[45vw] lg:min-w-[31%] snap-start h-[inherit]"
+              >
+                <ProjectCard project={project} />
+              </div>
+            ))}
+          </div>
+
+          {/* Functional Navigation Buttons [cite: 2026-02-10] */}
+          <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between pointer-events-none px-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <button 
+              onClick={() => scroll("left")}
+              className="p-4 bg-white shadow-2xl rounded-full pointer-events-auto hover:bg-indigo-600 hover:text-white transition-all border border-slate-100"
+            >
+              <LuChevronLeft size={20} />
+            </button>
+            <button 
+              onClick={() => scroll("right")}
+              className="p-4 bg-white shadow-2xl rounded-full pointer-events-auto hover:bg-indigo-600 hover:text-white transition-all border border-slate-100"
+            >
+              <LuChevronRight size={20} />
+            </button>
+          </div>
+        </div>
+
+        {/* Dynamic Node Tracker [cite: 2025-11-28] */}
+        <div className="flex items-center gap-6 mt-4">
+          <div className="h-[2px] bg-slate-100 flex-1 relative overflow-hidden">
+            <motion.div 
+              className="absolute left-0 top-0 h-full bg-indigo-500" 
+              style={{ width: `${Math.max(10, scrollProgress)}%` }} // Minimum 10% for visibility
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            />
+          </div>
+          <span className="font-mono text-[9px] text-slate-400 uppercase tracking-widest">
+            SYSTEM_SYNC: {Math.round(scrollProgress)}%
+          </span>
         </div>
       </section>
 
-      {/* 4. EXPERIENCE: Distributed Systems & Research */}
-      <section className="py-32 bg-[#020406] text-white">
-        <div className="max-w-5xl mx-auto px-6">
-          <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-500 mb-20">Work_History</h2>
-          <div className="space-y-24 grid grid-cols-1 md:grid-cols-2 gap-12">
-            {data.experience.map((exp: any) => (
-              <ExperienceCard key={exp.organization} exp={exp} />
+      {/* 4. EXPERIENCE: Dense System Grid */}
+      <section id="experiences" className="py-20 bg-[#020406] text-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <h2 className="text-sm font-black uppercase tracking-[0.5em] text-indigo-500 mb-12">
+            Work_History
+          </h2>
+          {/* Reduced gap and removed space-y-24 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+            {data.experience.map((exp: any, index: number) => (
+              <ExperienceCard key={exp.organization} exp={{...exp, index: index + 1}} />
             ))}
           </div>
         </div>

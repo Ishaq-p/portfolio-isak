@@ -41,7 +41,7 @@ export default function NeuralNetwork() {
 
       const newLog = `[${timestamp}] EPOCH_UPDT: loss=${loss} acc=${acc} val_acc=${valAcc} f1=${f1} // model-train-03`;
       
-      setLogs(prev => [...prev.slice(-15), newLog]); // Keep last 15 lines for performance
+      setLogs(prev => [...prev.slice(-2), newLog]); // Keep last 15 lines for performance
     }, 1500);
 
     return () => clearInterval(interval);

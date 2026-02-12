@@ -1,0 +1,60 @@
+<svg width="800" height="500" viewBox="0 0 800 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="500" rx="24" fill="#05080a"/>
+  <rect x="0.5" y="0.5" width="799" height="499" rx="23.5" stroke="#ffffff" stroke-opacity="0.05"/>
+
+  <g id="Input_Stage">
+    <rect x="40" y="180" width="120" height="140" rx="12" fill="#ffffff" fill-opacity="0.02" stroke="#ffffff" stroke-opacity="0.1"/>
+    <text x="100" y="170" text-anchor="middle" fill="#6366f1" font-family="monospace" font-size="10" font-weight="900">SOURCE_DATA</text>
+    <rect x="55" y="200" width="90" height="60" rx="4" fill="#0f172a" stroke="#1e293b"/>
+    <path d="M70 230 L130 230 M100 210 L100 250" stroke="#6366f1" stroke-opacity="0.3"/>
+    <text x="100" y="285" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="8">RAW_VEHICLE_IMG</text>
+    <text x="100" y="300" text-anchor="middle" fill="#6366f1" font-family="monospace" font-size="7">ADAPTIVE_PREPROC</text>
+  </g>
+
+  <path d="M160 250 H200" stroke="#6366f1" stroke-width="2" stroke-dasharray="4 4"/>
+
+  <g id="Detection_Models">
+    <rect x="200" y="140" width="200" height="220" rx="16" fill="#6366f1" fill-opacity="0.05" stroke="#6366f1"/>
+    <text x="300" y="130" text-anchor="middle" fill="#6366f1" font-family="monospace" font-size="10" font-weight="900">DETECTION_ENSEMBLE</text>
+    
+    <rect x="220" y="170" width="160" height="50" rx="8" fill="#05080a" stroke="#6366f1"/>
+    <text x="300" y="195" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="10" font-weight="700">YOLO Model</text>
+    <text x="300" y="210" text-anchor="middle" fill="#6366f1" font-family="monospace" font-size="7">mAP@0.5: 0.89</text>
+    
+    <rect x="220" y="240" width="160" height="50" rx="8" fill="#05080a" stroke="#ffffff" stroke-opacity="0.2"/>
+    <text x="300" y="265" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="10">RCNN Sub-module</text>
+    <text x="300" y="280" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="7">mAP: 0.78</text>
+    
+    <text x="300" y="340" text-anchor="middle" fill="#6366f1" font-family="monospace" font-size="8">PARALLEL_INFERENCE</text>
+  </g>
+
+  <path d="M400 250 H440" stroke="#6366f1" stroke-width="2"/>
+
+  <g id="Plate_Localization">
+    <rect x="440" y="200" width="120" height="100" rx="12" fill="#ffffff" fill-opacity="0.02" stroke="#ffffff" stroke-opacity="0.1"/>
+    <text x="500" y="190" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9" font-weight="900">ROI_EXTRACTION</text>
+    <rect x="460" y="220" width="80" height="30" rx="4" fill="#0f172a" stroke="#6366f1"/>
+    <text x="500" y="240" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="10">[ PLATE ]</text>
+    <text x="500" y="275" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="8">IOU_OPTIMIZED</text>
+  </g>
+
+  <path d="M560 250 H600" stroke="#6366f1" stroke-width="2" stroke-dasharray="4 4"/>
+
+  <g id="OCR_Engine">
+    <rect x="600" y="140" width="160" height="220" rx="16" fill="#10b981" fill-opacity="0.05" stroke="#10b981"/>
+    <text x="680" y="130" text-anchor="middle" fill="#10b981" font-family="monospace" font-size="10" font-weight="900">HYBRID_OCR_V2</text>
+    
+    <rect x="620" y="170" width="120" height="40" rx="6" fill="#05080a" stroke="#10b981" stroke-opacity="0.5"/>
+    <text x="680" y="195" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="9">EasyOCR</text>
+    
+    <rect x="620" y="225" width="120" height="40" rx="6" fill="#05080a" stroke="#10b981" stroke-opacity="0.5"/>
+    <text x="680" y="250" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="9">PaddleOCR</text>
+    
+    <rect x="620" y="280" width="120" height="50" rx="8" fill="#10b981" fill-opacity="0.1"/>
+    <text x="680" y="300" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="12" font-weight="900">34 ABC 123</text>
+    <text x="680" y="318" text-anchor="middle" fill="#10b981" font-family="monospace" font-size="8">ACCURACY: 94%</text>
+  </g>
+
+  <rect x="250" y="440" width="300" height="30" rx="15" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.1"/>
+  <text x="400" y="458" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9" font-weight="700">YOLO mAP@0.5: 0.89 // OCR ACC: 94%</text>
+</svg>

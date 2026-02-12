@@ -1,6 +1,7 @@
 "use client";
-import React from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
+import emailjs from '@emailjs/browser';
 import { FaLinkedinIn, FaGithub } from "react-icons/fa6";
 // import NeuralVisualizer from './components/NeuralNetwork';
 import Capabilities from './components/Capabilities';
@@ -13,7 +14,29 @@ const NeuralVisualizer = dynamic(() => import('./components/NeuralNetwork'), {
 });
 
 
+
 export default function LandingPage() {
+  const form = useRef<HTMLFormElement>(null); // Reference the form 
+  const sendEmail = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!form.current) return;
+
+    emailjs.sendForm(
+      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!, 
+      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!, 
+      form.current, 
+      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+    )
+    .then(() => {
+        alert("MESSAGE_PUSHED_SUCCESSFULLY"); // Replace with a better toast
+        form.current?.reset();
+    }, (error) => {
+        console.error("PUSH_FAILED:", error.text);
+    });
+  };
+
+  
   return (
     <div className="min-h-screen bg-white font-sans">
 
@@ -65,23 +88,41 @@ export default function LandingPage() {
                 <h2 className="text-4xl font-black text-white mb-8 tracking-tighter">Let's collaborate.</h2>
 
                 {/* Reduced space-y from 8 to 6 */}
-                <form className="space-y-6">
+                <form ref={form} onSubmit={sendEmail} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-1.5">
                       <label className="text-[8px] font-bold text-slate-500 uppercase tracking-widest ml-4">CLIENT_ID</label>
-                      <input type="text" placeholder="Full Name" className="w-full bg-white/[0.03] border border-white/5 rounded-xl p-4 text-white placeholder:text-slate-600 focus:ring-1 focus:ring-indigo-500 outline-none transition-all text-sm" />
+                      <input 
+                        name="user_name" // Ensure name matches template [cite: 2026-02-09]
+                        type="text" 
+                        placeholder="Full Name" 
+                        required
+                        className="w-full bg-white/[0.03] border border-white/5 rounded-xl p-4 text-white text-sm" 
+                      />
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-[8px] font-bold text-slate-500 uppercase tracking-widest ml-4">MAIL_ENDPOINT</label>
-                      <input type="email" placeholder="Email Address" className="w-full bg-white/[0.03] border border-white/5 rounded-xl p-4 text-white placeholder:text-slate-600 focus:ring-1 focus:ring-indigo-500 outline-none transition-all text-sm" />
+                      <input 
+                        name="user_email" 
+                        type="email" 
+                        placeholder="Email Address" 
+                        required
+                        className="w-full bg-white/[0.03] border border-white/5 rounded-xl p-4 text-white text-sm" 
+                      />
                     </div>
                   </div>
                   <div className="space-y-1.5">
                     <label className="text-[8px] font-bold text-slate-500 uppercase tracking-widest ml-4">REQ_PAYLOAD</label>
-                    <textarea rows={3} placeholder="Project overview..." className="w-full bg-white/[0.03] border border-white/5 rounded-xl p-4 text-white placeholder:text-slate-600 focus:ring-1 focus:ring-indigo-500 outline-none transition-all resize-none text-sm"></textarea>
+                    <textarea 
+                      name="message" 
+                      rows={3} 
+                      placeholder="Project overview..." 
+                      required
+                      className="w-full bg-white/[0.03] border border-white/5 rounded-xl p-4 text-white text-sm"
+                    />
                   </div>
-                  <button className="group relative px-10 py-4 bg-indigo-600 text-white rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-indigo-500 transition-all active:scale-95">
-                    <span className="relative z-10">Push Message</span>
+                  <button type="submit" className="px-10 py-4 bg-indigo-600 text-white rounded-xl font-black uppercase tracking-widest text-[10px]">
+                    Push Message
                   </button>
                 </form>
               </div>
