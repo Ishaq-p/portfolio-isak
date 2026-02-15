@@ -47,7 +47,7 @@ export default function NeuralNetwork() {
     return () => clearInterval(interval);
   }, []);
   return (
-    <div className="lg:col-span-5">
+    <div className="hidden lg:flex lg:col-span-5">
       <div className="bg-[#020406] p-8 pb-0 rounded-[3rem] shadow-2xl border border-white/5 relative overflow-hidden h-[500px] flex flex-col font-mono">
         
         {/* Terminal Header */}
