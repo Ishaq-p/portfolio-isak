@@ -9,12 +9,6 @@ export default function ConnectionProtocol({ data }: { data: any }) {
           <h2 className="text-2xl font-black tracking-tighter uppercase">
             Initialize_Connection
           </h2>
-          <div className="flex items-center gap-3">
-            <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
-            <p className="font-mono text-[10px] font-bold uppercase tracking-widest opacity-90">
-              <span className="bg-slate-00 text-indigo-50">{data.education.degree}</span> // {data.education.institution}
-            </p>
-          </div>
         </div>
 
         {/* Social Link Mesh */}

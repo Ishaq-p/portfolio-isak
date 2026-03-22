@@ -61,7 +61,9 @@ export default function LandingPage() {
               We build tools that bridge the gap between complex engineering and intuitive user experiences.
             </p>
             <div className="flex flex-wrap gap-4">
-              <button className="px-10 py-4 bg-slate-900 text-white rounded-xl font-bold shadow-2xl shadow-indigo-200 hover:bg-indigo-600 transition-all active:scale-95">
+              <button  
+              onClick={() => document.getElementById('contact-section')?.scrollIntoView({ behavior: 'smooth' })}
+              className="px-10 py-4 bg-slate-900 text-white rounded-xl font-bold shadow-2xl shadow-indigo-200 hover:bg-indigo-600 transition-all active:scale-95">
                 Let's collaborate
               </button>
               <Link href="/portfolio" className="px-10 py-4 bg-white border border-slate-200 text-slate-900 rounded-xl font-bold hover:bg-slate-50 transition-all">
@@ -85,7 +87,7 @@ export default function LandingPage() {
             {/* LEFT: Submission Terminal - Tightened padding */}
             <div className="lg:w-3/5 p-10 lg:p-14 relative">
               <div className="relative z-10">
-                <h2 className="text-4xl font-black text-white mb-8 tracking-tighter">Let's collaborate.</h2>
+                <h2 id='collaborate' className="text-4xl font-black text-white mb-8 tracking-tighter">Let's collaborate.</h2>
 
                 {/* Reduced space-y from 8 to 6 */}
                 <form ref={form} onSubmit={sendEmail} className="space-y-6">

@@ -6,7 +6,7 @@
   },
 
   "skills": [
-    {     "category": "Languages",                 "items": [ "Python", "TypeScript", "SQL", "Bash", "C++"]  },
+    {     "category": "Languages",                 "items": [ "Python", "TypeScript", "SQL", "Bash", "Java", "C++"]  },
     {     "category": "ML / AI",                   "items": [ "Transformers", "Computer Vision", "Time-Series Forecasting", "Deep Learning (CNNs, RNNs, LSTMs)", "Data Engineering (ETL, Pipelines)" ]  },  
     {     "category": "Backend",                   "items": [ "NestJS", "PostgreSQL","Django", "Flask", "Redis", "REST APIs" ]  },
     {     "category": "Frontend (Supporting)",     "items": [ "Next.js", "React", "Vite", "Browser Extensions (Manifest V3)"  ]   },
@@ -174,13 +174,47 @@
         "details": null,
         "organization": null
       }
+    },
+    {
+      "id": "bilim-uskudar-educator",
+      "role": "Science & Programming Educator",
+      "organization": "Bilim Üsküdar Science Center",
+      "location": "Istanbul, Turkey",
+      "type": "Part-time",
+      "duration": {
+        "start": "2023-12",
+        "end": "2024-04"
+      },
+      "summary": "Taught applied science and programming to students across rotating school groups, translating complex technical concepts into hands-on, age-appropriate sessions.",
+      "key_impact": [
+        "Taught applied science and programming to 20+ students daily across rotating school groups",
+        "Translated complex technical concepts into hands-on, age-appropriate sessions",
+        "Designed and delivered an original lesson demystifying neural networks, explaining backpropagation as scaled mathematics rather than 'magic AI'"
+      ],
+      "stack": [
+        "Python",
+        "Teaching",
+        "Curriculum Design"
+      ],
+      "domain": [
+        "Education",
+        "Social Impact"
+      ],
+      "level": "Supporting",
+      "has_details_page": false,
+      "links": {
+        "details": null,
+        "organization": null
+      }
     }
   ],
-  "education": {
+  "education": [
+    {
     "degree": "B.Sc. in Computer Engineering (High Honors)",
     "institution": "Istanbul Arel University",
     "year": "2025"
-  },
+    }
+  ],
   "contact": {
     "email": "sultan.ishaq.321@gmail.com",
     "github": "github.com/paktinyar",
@@ -199,7 +233,6 @@
       { "organization": "i&i Book Club", "role": "Founder", "year": "2024" },
       { "organization": "Sokak Lambasi Assoc.", "role": "Volunteer", "year": "Since 07/2023" },
       { "organization": "T3 AI’LE", "role": "Data Commission Volunteer", "year": "2024" },
-      { "organization": "Bilim Üsküdar", "role": "Teaching Asst.", "year": "12/2023 – 03/2024" },
       { "organization": "English Tutoring", "role": "Founder", "year": "2024" },
       { "organization": "Best Diplomats", "role": "Local Team Coordinator", "year": "2024" }
     ]

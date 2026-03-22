@@ -9,8 +9,8 @@ export default function Navbar() {
   const [resumeOpen, setResumeOpen] = useState(false);
 
   const resumes = [
-    { label: "EN_PROTOCOL", lang: "English", path: "/ishaqCV_1-full.pdf" },
-    { label: "TR_PROTOKOLÜ", lang: "Türkçe", path: "/ishaqCV_1-full_turkish.pdf" },
+    { label: "EN_PROTOCOL", lang: "English", path: "/ishaq_cv.pdf" },
+    { label: "TR_PROTOKOLÜ", lang: "Türkçe", path: "/ishaq_cv-turkish.pdf" },
   ];
 
   return (
