@@ -236,5 +236,22 @@
       { "organization": "English Tutoring", "role": "Founder", "year": "2024" },
       { "organization": "Best Diplomats", "role": "Local Team Coordinator", "year": "2024" }
     ]
-  }
+  },
+  "certifications": [
+    {
+      "id": "ibm-ai-engineering",
+      "title": "IBM AI Engineering Professional Certificate",
+      "issuer": "IBM",
+      "platform": "Coursera",
+      "year": 2023,
+      "credential_url": "https://coursera.org/share/8be56054ccf0cdf5f7a397065fd61712"
+    },
+    {
+      "id": "ielts-academic",
+      "title": "IELTS Academic",
+      "issuer": "British Council",
+      "year": 2024,
+      "band_score": null
+    }
+  ]
 }

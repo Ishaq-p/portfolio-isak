@@ -110,6 +110,142 @@
     }
   },
   {
+    "id": "mizzanly",
+    "title": "Mizzanly: Financial Management Platform for Hawala & FX Operators",
+    "summary": "A full-stack enterprise ledger system replacing paper-based workflows for Hawala operators and Money Service Providers, featuring a multi-currency double-entry ledger, nine live analytics charts, AI-ready architecture, and server-side PDF generation.",
+
+    "problem": {
+      "description": "Hawala and foreign exchange businesses operate on trust and manual records — paper ledgers, Excel sheets, and verbal agreements. This creates zero auditability, no real-time financial visibility, and catastrophic exposure when disputes arise or staff changes occur.",
+      "constraints": [
+        "Multi-currency transactions (USD, AFN, EUR, AED, PKR) with cross-currency metadata",
+        "Strict auditability — no record can ever be deleted or silently modified",
+        "High-security environment — admin credentials alone must never grant access",
+        "Afghan Shamsi (Jalali) calendar used in daily operations alongside Gregorian"
+      ]
+    },
+
+    "system_overview": {
+      "type": "Full-Stack Web Platform (Polyrepo)",
+      "input": "Admin actions: transaction entries, customer records, void approvals",
+      "output": "Live financial ledger, analytics dashboards, branded PDF documents, automated email receipts"
+    },
+
+    "architecture": {
+      "diagram": "/images/mizzanly-arch.svg",
+      "components": [
+        "React 19 + TypeScript (SPA — Vercel)",
+        "NestJS 11 (REST API — Railway)",
+        "PostgreSQL 15 + Prisma 6 (Relational Ledger)",
+        "Zustand + TanStack Query (Client State + Server Cache)",
+        "pdfmake (Server-side PDF Engine — Roboto + Vazirmatn fonts)",
+        "Brevo SDK (Transactional Email)",
+        "Recharts (9 Live Analytics Charts)",
+        "Frankfurter API (Real-time FX Rates)"
+      ]
+    },
+
+    "your_contributions": [
+      "Designed and implemented a cryptographically-secured dual-token authentication system with mandatory email 2FA, refresh token rotation with reuse detection, and automatic account lockout after 5 failed OTP attempts.",
+      "Engineered an append-only financial ledger where every transaction stores balance snapshots (before/after), enabling full historical statement reconstruction without replaying the full ledger — identical to the double-entry accounting model.",
+      "Built a two-tier void approval workflow: admins submit void requests; super-admins approve or reject. Approval atomically reverses the balance delta inside a Prisma database transaction, guaranteeing no partial state.",
+      "Implemented an immutable audit log with no foreign key on actorId (intentional — records survive user deletion) storing before/after JSON snapshots of every admin action across all entities.",
+      "Architected a 9-endpoint analytics engine using raw SQL (Prisma $queryRaw) for time-series aggregations — monthly P&L, daily velocity, currency exposure, void rate trend, top customers — all executed in parallel.",
+      "Built a full Shamsi (Afghan Jalali) calendar from scratch in TypeScript with pure algorithmic Jalali ↔ Gregorian conversion, no external library — including a month-view picker UI with Afghan Dari month names.",
+      "Designed a 5-theme CSS custom property system where every colour resolves via CSS variables — theme switching is instant with zero React re-renders and no flash of wrong theme on page load.",
+      "Implemented a server-side PDF generation engine (pdfmake) with 4 branded document templates supporting bilingual typography (Roboto for Latin, Vazirmatn for Dari/Persian)."
+    ],
+
+    "results": {
+      "metrics": [
+        { "name": "Analytics Endpoints", "value": "9 parallel queries" },
+        { "name": "PDF Document Types", "value": "4 branded templates" },
+        { "name": "Currencies Supported", "value": "5 (USD, AFN, EUR, AED, PKR)" },
+        { "name": "Auth Security Layers", "value": "reCAPTCHA + bcrypt + 2FA + token rotation + reuse detection" },
+        { "name": "Deployment", "value": "Production (Vercel + Railway)" }
+      ],
+      "evaluation": "Successfully deployed to production with a fully operational multi-currency ledger, live analytics dashboard, automated transactional email system, and PDF document generation."
+    },
+
+    "engineering_decisions": [
+      {
+        "decision": "Append-only transaction ledger with balance snapshots",
+        "reason": "Financial records must be irrefutable. Storing balanceBefore and balanceAfter on every row means any historical account statement can be reconstructed in a single O(n) scan, without replaying the entire ledger or relying on complex event sourcing."
+      },
+      {
+        "decision": "Mandatory 2FA for every login with refresh token rotation",
+        "reason": "The system manages real financial records. A stolen password alone must be insufficient for access. Refresh token rotation with reuse detection means that if a token is ever stolen and used, all sessions for that user are immediately killed — the attack is self-reporting."
+      },
+      {
+        "decision": "URL-persisted filter state via useSearchParams",
+        "reason": "In a financial operations context, admins frequently need to share specific filtered views (e.g. 'all USD debits over $10,000 this month'). Storing filter state in the URL makes every view bookmarkable, shareable, and survives page refresh — without any additional state management complexity."
+      },
+      {
+        "decision": "CSS custom property theme engine over Tailwind dark mode class",
+        "reason": "Five distinct themes (not just dark/light) needed to be switchable instantly. CSS variable resolution is handled entirely by the browser cascade — React re-renders zero components on a theme switch. The no-flash pattern (inline script in index.html before React mounts) was critical for professional UX."
+      },
+      {
+        "decision": "Server-side PDF generation (pdfmake) over client-side",
+        "reason": "Client-side PDF libraries (jsPDF, react-pdf) cannot reliably handle right-to-left text (Dari/Persian) or custom font embedding. pdfmake on the backend with bundled Roboto and Vazirmatn TTF files produces consistent, branded documents regardless of the client device."
+      },
+      {
+        "decision": "Shamsi calendar built from scratch, no library",
+        "reason": "No reliable, well-maintained TypeScript Jalali calendar library exists that handles the full conversion algorithm correctly for all edge cases (leap years, month-boundary arithmetic). The algorithm is deterministic and well-documented — implementing it directly removed a fragile external dependency from a core operational feature."
+      }
+    ],
+
+    "limitations": [
+      "Horizontal scaling requires session-aware load balancing (sticky sessions or Redis session store) due to in-memory Passport.js session state",
+      "FX rate data (Frankfurter API) is ECB-sourced and may lag real hawala market rates",
+      "Void confirmation PDF not yet surfaced in the frontend UI (backend endpoint complete)"
+    ],
+
+    "future_work": [
+      "AI-powered transaction anomaly detection and narration suggestions using Claude API",
+      "React Native mobile app for field agents to submit transactions and view balances",
+      "Automated horizontal scaling with session-aware Redis store",
+      "WhatsApp/SMS OTP delivery as fallback to email-based 2FA",
+      "ML-based cash flow forecasting from historical transaction patterns"
+    ],
+
+    "stack": {
+      "languages": ["TypeScript"],
+      "frontend": ["React 19", "Vite", "TanStack Query", "Zustand", "Recharts", "Tailwind CSS", "React Router v7"],
+      "backend": ["NestJS 11", "Node.js", "Prisma 6", "Passport.js", "pdfmake", "Brevo SDK"],
+      "infra": ["PostgreSQL 15", "Railway (Backend)", "Vercel (Frontend)"],
+      "integrations": ["Google reCAPTCHA v3", "Frankfurter FX API", "Brevo Transactional Email"]
+    },
+
+    "links": {
+      "github": null,
+      "paper": null,
+      "demo": "https://mizzanly.vercel.app"
+    },
+
+    "short_card": {
+      "id": "mizzanly-platform",
+      "title": "Mizzanly",
+      "tagline": "Enterprise financial ledger for Hawala & FX operators with live analytics, 2FA security, and bilingual PDF generation",
+      "domain": ["FinTech", "Full-Stack", "Data Visualization"],
+      "role": "Lead Architect & Engineer",
+      "stack": ["NestJS", "React 19", "PostgreSQL", "Recharts"],
+      "key_metric": {
+        "label": "Security Layers",
+        "value": "5-Layer Auth"
+      },
+      "secondary_metric": {
+        "label": "Analytics Charts",
+        "value": "9 Live"
+      },
+      "status": "Production",
+      "year": 2026,
+      "links": {
+        "details": "/projects/mizzanly",
+        "github": null,
+        "demo": "https://mizzanly.vercel.app"
+      }
+    }
+  },
+  {
     "id": "veroz",
     "title": "Veroz: Freelance Courier Delivery Pooling System",
     "summary": "Full-stack delivery management platform enabling freelance couriers to pool deliveries and optimize routes via real-time WebSocket tracking and dynamic pricing.",
@@ -333,141 +469,6 @@
         "details": "/projects/pathogenic-features",
         "github": "https://github.com/JRaviLab",
         "demo": "https://jravilab.github.io/project/pathogenic-features/"
-      }
-    }
-  },
-  {
-    "id": "mizzanly",
-    "title": "Mizzanly: Financial Management Platform for Hawala & FX Operators",
-    "summary": "A full-stack enterprise ledger system replacing paper-based workflows for Hawala operators and Money Service Providers, featuring a multi-currency double-entry ledger, nine live analytics charts, AI-ready architecture, and server-side PDF generation.",
-
-    "problem": {
-      "description": "Hawala and foreign exchange businesses operate on trust and manual records — paper ledgers, Excel sheets, and verbal agreements. This creates zero auditability, no real-time financial visibility, and catastrophic exposure when disputes arise or staff changes occur.",
-      "constraints": [
-        "Multi-currency transactions (USD, AFN, EUR, AED, PKR) with cross-currency metadata",
-        "Strict auditability — no record can ever be deleted or silently modified",
-        "High-security environment — admin credentials alone must never grant access",
-        "Afghan Shamsi (Jalali) calendar used in daily operations alongside Gregorian"
-      ]
-    },
-
-    "system_overview": {
-      "type": "Full-Stack Web Platform (Polyrepo)",
-      "input": "Admin actions: transaction entries, customer records, void approvals",
-      "output": "Live financial ledger, analytics dashboards, branded PDF documents, automated email receipts"
-    },
-
-    "architecture": {
-      "components": [
-        "React 19 + TypeScript (SPA — Vercel)",
-        "NestJS 11 (REST API — Railway)",
-        "PostgreSQL 15 + Prisma 6 (Relational Ledger)",
-        "Zustand + TanStack Query (Client State + Server Cache)",
-        "pdfmake (Server-side PDF Engine — Roboto + Vazirmatn fonts)",
-        "Brevo SDK (Transactional Email)",
-        "Recharts (9 Live Analytics Charts)",
-        "Frankfurter API (Real-time FX Rates)"
-      ]
-    },
-
-    "your_contributions": [
-      "Designed and implemented a cryptographically-secured dual-token authentication system with mandatory email 2FA, refresh token rotation with reuse detection, and automatic account lockout after 5 failed OTP attempts.",
-      "Engineered an append-only financial ledger where every transaction stores balance snapshots (before/after), enabling full historical statement reconstruction without replaying the full ledger — identical to the double-entry accounting model.",
-      "Built a two-tier void approval workflow: admins submit void requests; super-admins approve or reject. Approval atomically reverses the balance delta inside a Prisma database transaction, guaranteeing no partial state.",
-      "Implemented an immutable audit log with no foreign key on actorId (intentional — records survive user deletion) storing before/after JSON snapshots of every admin action across all entities.",
-      "Architected a 9-endpoint analytics engine using raw SQL (Prisma $queryRaw) for time-series aggregations — monthly P&L, daily velocity, currency exposure, void rate trend, top customers — all executed in parallel.",
-      "Built a full Shamsi (Afghan Jalali) calendar from scratch in TypeScript with pure algorithmic Jalali ↔ Gregorian conversion, no external library — including a month-view picker UI with Afghan Dari month names.",
-      "Designed a 5-theme CSS custom property system where every colour resolves via CSS variables — theme switching is instant with zero React re-renders and no flash of wrong theme on page load.",
-      "Implemented a server-side PDF generation engine (pdfmake) with 4 branded document templates supporting bilingual typography (Roboto for Latin, Vazirmatn for Dari/Persian)."
-    ],
-
-    "results": {
-      "metrics": [
-        { "name": "Analytics Endpoints", "value": "9 parallel queries" },
-        { "name": "PDF Document Types", "value": "4 branded templates" },
-        { "name": "Currencies Supported", "value": "5 (USD, AFN, EUR, AED, PKR)" },
-        { "name": "Auth Security Layers", "value": "reCAPTCHA + bcrypt + 2FA + token rotation + reuse detection" },
-        { "name": "Deployment", "value": "Production (Vercel + Railway)" }
-      ],
-      "evaluation": "Successfully deployed to production with a fully operational multi-currency ledger, live analytics dashboard, automated transactional email system, and PDF document generation."
-    },
-
-    "engineering_decisions": [
-      {
-        "decision": "Append-only transaction ledger with balance snapshots",
-        "reason": "Financial records must be irrefutable. Storing balanceBefore and balanceAfter on every row means any historical account statement can be reconstructed in a single O(n) scan, without replaying the entire ledger or relying on complex event sourcing."
-      },
-      {
-        "decision": "Mandatory 2FA for every login with refresh token rotation",
-        "reason": "The system manages real financial records. A stolen password alone must be insufficient for access. Refresh token rotation with reuse detection means that if a token is ever stolen and used, all sessions for that user are immediately killed — the attack is self-reporting."
-      },
-      {
-        "decision": "URL-persisted filter state via useSearchParams",
-        "reason": "In a financial operations context, admins frequently need to share specific filtered views (e.g. 'all USD debits over $10,000 this month'). Storing filter state in the URL makes every view bookmarkable, shareable, and survives page refresh — without any additional state management complexity."
-      },
-      {
-        "decision": "CSS custom property theme engine over Tailwind dark mode class",
-        "reason": "Five distinct themes (not just dark/light) needed to be switchable instantly. CSS variable resolution is handled entirely by the browser cascade — React re-renders zero components on a theme switch. The no-flash pattern (inline script in index.html before React mounts) was critical for professional UX."
-      },
-      {
-        "decision": "Server-side PDF generation (pdfmake) over client-side",
-        "reason": "Client-side PDF libraries (jsPDF, react-pdf) cannot reliably handle right-to-left text (Dari/Persian) or custom font embedding. pdfmake on the backend with bundled Roboto and Vazirmatn TTF files produces consistent, branded documents regardless of the client device."
-      },
-      {
-        "decision": "Shamsi calendar built from scratch, no library",
-        "reason": "No reliable, well-maintained TypeScript Jalali calendar library exists that handles the full conversion algorithm correctly for all edge cases (leap years, month-boundary arithmetic). The algorithm is deterministic and well-documented — implementing it directly removed a fragile external dependency from a core operational feature."
-      }
-    ],
-
-    "limitations": [
-      "Horizontal scaling requires session-aware load balancing (sticky sessions or Redis session store) due to in-memory Passport.js session state",
-      "FX rate data (Frankfurter API) is ECB-sourced and may lag real hawala market rates",
-      "Void confirmation PDF not yet surfaced in the frontend UI (backend endpoint complete)"
-    ],
-
-    "future_work": [
-      "AI-powered transaction anomaly detection and narration suggestions using Claude API",
-      "React Native mobile app for field agents to submit transactions and view balances",
-      "Automated horizontal scaling with session-aware Redis store",
-      "WhatsApp/SMS OTP delivery as fallback to email-based 2FA",
-      "ML-based cash flow forecasting from historical transaction patterns"
-    ],
-
-    "stack": {
-      "languages": ["TypeScript"],
-      "frontend": ["React 19", "Vite", "TanStack Query", "Zustand", "Recharts", "Tailwind CSS", "React Router v7"],
-      "backend": ["NestJS 11", "Node.js", "Prisma 6", "Passport.js", "pdfmake", "Brevo SDK"],
-      "infra": ["PostgreSQL 15", "Railway (Backend)", "Vercel (Frontend)"],
-      "integrations": ["Google reCAPTCHA v3", "Frankfurter FX API", "Brevo Transactional Email"]
-    },
-
-    "links": {
-      "github": null,
-      "paper": null,
-      "demo": "https://mizzanly.vercel.app"
-    },
-
-    "short_card": {
-      "id": "mizzanly-platform",
-      "title": "Mizzanly",
-      "tagline": "Enterprise financial ledger for Hawala & FX operators with live analytics, 2FA security, and bilingual PDF generation",
-      "domain": ["FinTech", "Full-Stack", "Data Visualization"],
-      "role": "Lead Architect & Engineer",
-      "stack": ["NestJS", "React 19", "PostgreSQL", "Recharts"],
-      "key_metric": {
-        "label": "Security Layers",
-        "value": "5-Layer Auth"
-      },
-      "secondary_metric": {
-        "label": "Analytics Charts",
-        "value": "9 Live"
-      },
-      "status": "Production",
-      "year": 2026,
-      "links": {
-        "details": "/projects/mizzanly",
-        "github": null,
-        "demo": "https://mizzanly.vercel.app"
       }
     }
   },

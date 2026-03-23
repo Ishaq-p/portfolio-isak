@@ -128,7 +128,7 @@ export default function Portfolio() {
       </section>
 
       {/* ── 2. CORE STACK ────────────────────────────────────────────────── */}
-      <section className="py-16 md:py-24 bg-slate-50 border-y border-slate-100">
+      <section className="py-16 md:py-24 bg-slate-200 border-y border-slate-100">
         <div className="max-w-5xl mx-auto px-6">
           <header className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div className="space-y-4">
@@ -171,7 +171,7 @@ export default function Portfolio() {
       </section>
 
       {/* ── 3. PROJECTS ──────────────────────────────────────────────────── */}
-      <section id="projects" className="py-12 md:py-20 max-w-7xl mx-auto px-6 overflow-hidden">
+      <section id="projects" className="py-12 md:py-20  max-w-7xl mx-auto px-6 overflow-hidden">
         <header className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div className="space-y-4">
             <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-600">
@@ -192,12 +192,12 @@ export default function Portfolio() {
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {filteredProjects?.map((project: any) => (
-            <div
-              key={project.id}
-              className="min-w-[85vw] md:min-w-[45vw] lg:min-w-[31%] snap-start h-[inherit]"
-            >
-              <ProjectCard project={project} />
-            </div>
+          <div
+            key={project.id}
+            className="min-w-[85vw] md:min-w-[45vw] lg:min-w-[calc(45%-1rem)] snap-start h-[inherit]"
+          >
+            <ProjectCard project={project} />
+          </div>
           ))}
         </div>
 
@@ -246,7 +246,7 @@ export default function Portfolio() {
       </section>
 
       {/* ── 5. EDUCATION ─────────────────────────────────────────────────── */}
-      <section id="education" className="py-20 md:py-32 bg-slate-50 border-b border-slate-100 overflow-hidden">
+      <section id="education" className="py-20 md:py-32 bg-slate-400 border-b border-slate-100 overflow-hidden">
         <div className="max-w-6xl mx-auto px-6">
 
           {/* Section label */}
@@ -321,6 +321,78 @@ export default function Portfolio() {
               </div>
             </motion.div>
           ))}
+        </div>
+      </section>
+
+      {/* ── 6. CERTIFICATIONS ────────────────────────────────────────────── */}
+      <section className="py-20 bg-slate-300 border-b border-slate-100">
+        <div className="max-w-6xl mx-auto px-6">
+
+          <p className="font-mono text-[10px] font-black uppercase tracking-[0.5em] text-indigo-600 mb-12">
+            Verified_Credentials
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {data.certifications.map((cert: any, i: number) => (
+              <motion.div
+                key={cert.id}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="relative group rounded-3xl border border-slate-100 bg-slate-50 hover:bg-white hover:shadow-2xl hover:shadow-indigo-100/60 transition-all duration-500 overflow-hidden p-8"
+              >
+                {/* Ghosted index number */}
+                <span
+                  className="absolute right-6 top-1/2 -translate-y-1/2 text-[100px] font-black text-slate-100 leading-none select-none pointer-events-none group-hover:text-indigo-50 transition-colors duration-500"
+                  aria-hidden
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+
+                <div className="relative z-10 flex flex-col gap-4">
+                  <div className="flex items-start justify-between gap-4">
+                    <h3 className="text-2xl font-black tracking-tighter text-slate-900 leading-tight max-w-xs">
+                      {cert.title}
+                    </h3>
+                    <span className="font-mono text-[10px] font-black uppercase tracking-widest text-slate-400 shrink-0">
+                      {cert.year}
+                    </span>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    <span className="font-mono text-[10px] font-black uppercase tracking-widest bg-indigo-50 text-indigo-600 px-3 py-1 rounded-full">
+                      {cert.issuer}
+                    </span>
+                    {cert.platform && (
+                      <span className="font-mono text-[10px] font-black uppercase tracking-widest bg-slate-100 text-slate-500 px-3 py-1 rounded-full">
+                        {cert.platform}
+                      </span>
+                    )}
+                    {cert.band_score && (
+                      <span className="font-mono text-[10px] font-black uppercase tracking-widest bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full">
+                        Band {cert.band_score}
+                      </span>
+                    )}
+                  </div>
+
+                  {cert.credential_url && (
+                    
+                    <a href={cert.credential_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-mono text-[10px] font-black uppercase tracking-widest text-indigo-500 hover:text-indigo-700 transition-colors w-fit"
+                    >
+                      Verify_Credential →
+                    </a>
+                  )}
+                </div>
+
+                {/* Hover accent line */}
+                <div className="absolute bottom-0 left-0 h-[3px] w-0 group-hover:w-full bg-gradient-to-r from-indigo-500 to-violet-500 transition-all duration-700 ease-out" />
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 

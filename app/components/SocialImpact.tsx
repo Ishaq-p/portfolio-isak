@@ -10,7 +10,7 @@ export default function SocialImpact({ data }: { data: any }) {
   };
 
   return (
-    <section className="py-24 bg-white border-t border-slate-100 text-slate-900">
+    <section className="py-24 bg-slate-200 border-t border-slate-100 text-slate-900">
       <div className="max-w-6xl mx-auto px-6">
         <header className="mb-16 space-y-4">
           <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-indigo-600">
@@ -58,17 +58,25 @@ export default function SocialImpact({ data }: { data: any }) {
                   key={i}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  className="p-6 bg-slate-50 border border-slate-100 rounded-2xl group hover:border-indigo-200 transition-all"
+                  className="relative p-6 bg-slate-50 border border-slate-100 rounded-2xl group hover:border-indigo-200 transition-all overflow-hidden"
                 >
-                  <div className="flex justify-between items-start mb-4">
+                  {/* Ghosted index */}
+                  <span
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-[80px] font-black text-slate-100 leading-none select-none pointer-events-none group-hover:text-indigo-50 transition-colors duration-500"
+                    aria-hidden
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+
+                  <div className="relative z-10 flex justify-between items-start mb-4">
                     <span className="text-indigo-600 font-mono text-[8px] font-black uppercase tracking-widest bg-indigo-50 px-2 py-0.5 rounded-sm">
                       {node.year || "Active"}
                     </span>
                   </div>
-                  <h4 className="text-sm font-black text-slate-900 mb-2 leading-tight uppercase tracking-tighter">
+                  <h4 className="relative z-10 text-sm font-black text-slate-900 mb-2 leading-tight uppercase tracking-tighter">
                     {node.organization}
                   </h4>
-                  <p className="text-[11px] text-slate-500 font-medium italic border-l-2 border-slate-200 pl-3">
+                  <p className="relative z-10 text-[11px] text-slate-500 font-medium italic border-l-2 border-slate-200 pl-3">
                     {node.role}
                   </p>
                 </motion.div>
