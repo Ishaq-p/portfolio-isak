@@ -1,178 +1,219 @@
 "use client";
-import React, { useRef } from 'react';
-import Link from 'next/link';
-import emailjs from '@emailjs/browser';
+import React, { useRef, useState } from "react";
+import emailjs from "@emailjs/browser";
 import { FaLinkedinIn, FaGithub } from "react-icons/fa6";
-// import NeuralVisualizer from './components/NeuralNetwork';
-import Capabilities from './components/Capabilities';
-import dynamic from 'next/dynamic';
-
-// Disable Server-Side Rendering for this specific component [cite: 2026-02-08]
-const NeuralVisualizer = dynamic(() => import('./components/NeuralNetwork'), { 
-  ssr: false,
-  loading: () => <div className="h-[500px] bg-[#020406] rounded-[3rem] animate-pulse" /> 
-});
-
-
+import { LuArrowUpRight, LuCheck } from "react-icons/lu";
+import { motion } from "framer-motion";
+import Capabilities from "./components/Capabilities";
+import SystemTelemetry from "./components/SystemTelemetry";
+import MagneticButton from "./components/MagneticButton";
+import OrbitMark from "./components/OrbitMark";
+import InteractiveDots from "./components/InteractiveDots";
+import TextPupil from "./components/DigitalEyes";
+import LineEyes from "./components/LineEyes";
 
 export default function LandingPage() {
-  const form = useRef<HTMLFormElement>(null); // Reference the form 
+  const form = useRef<HTMLFormElement>(null);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+
   const sendEmail = (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!form.current) return;
+    setStatus("sending");
 
-    emailjs.sendForm(
-      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!, 
-      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!, 
-      form.current, 
-      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-    )
-    .then(() => {
-        alert("MESSAGE_PUSHED_SUCCESSFULLY"); // Replace with a better toast
-        form.current?.reset();
-    }, (error) => {
-        console.error("PUSH_FAILED:", error.text);
-    });
+    emailjs
+      .sendForm(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        form.current,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      )
+      .then(
+        () => {
+          setStatus("sent");
+          form.current?.reset();
+        },
+        (error) => {
+          console.error("EMAIL_SEND_FAILED:", error.text);
+          setStatus("error");
+        }
+      );
   };
 
-  
   return (
-    <div className="min-h-screen bg-white font-sans">
+    <div className="bg-paper font-sans overflow-hidden">
+      {/* ── HERO ─────────────────────────────────────────────────────────── */}
+      <section className="relative w-full min-h-[100dvh] flex flex-col bg-paper-dim text-ink overflow-hidden selection:bg-ion selection:text-white pt-20 pb-16 md:pb-0">
 
-
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-white pt-7 pb-32">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full opacity-10 pointer-events-none">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-400 blur-[120px] rounded-full"></div>
-          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-fuchsia-400 blur-[120px] rounded-full"></div>
+        {/* Interactive Dots & Ambient Glow */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <InteractiveDots />
+          <div className="absolute top-0 right-0 w-[150vw] h-[150vh] md:w-full md:h-full bg-[radial-gradient(ellipse_at_top_right,rgba(46,91,255,0.06),transparent_60%)]" />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-16 items-center">
-          <div className="lg:col-span-7">
-            <span className="inline-block py-1 px-3 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold uppercase tracking-widest mb-6">
-              Now Live: AI Integration
-            </span>
-            <h1 className="text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-900 mb-8 leading-[1.1]">
-              Digital solutions <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-500">for the next era.</span>
-            </h1>
-            <p className="text-xl text-slate-500 mb-10 max-w-xl leading-relaxed">
-              We build tools that bridge the gap between complex engineering and intuitive user experiences.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <button  
-              onClick={() => document.getElementById('contact-section')?.scrollIntoView({ behavior: 'smooth' })}
-              className="px-10 py-4 bg-slate-900 text-white rounded-xl font-bold shadow-2xl shadow-indigo-200 hover:bg-indigo-600 transition-all active:scale-95">
-                Let's collaborate
-              </button>
-              <Link href="/portfolio" className="px-10 py-4 bg-white border border-slate-200 text-slate-900 rounded-xl font-bold hover:bg-slate-50 transition-all">
-                View Portfolio
-              </Link>
-            </div>
+        {/* Ocean Waves */}
+        <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] z-0 pointer-events-none h-[60px] md:h-[110px]">
+          <style>{`
+            @keyframes ocean-wave {
+              0% { transform: translate3d(0, 0, 0); }
+              100% { transform: translate3d(-50%, 0, 0); }
+            }
+            .wave-wrapper {
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              width: 200%;
+              height: 100%;
+              display: flex;
+            }
+            .wave-layer-1 { animation: ocean-wave 24s linear infinite; opacity: 0.25; }
+            .wave-layer-2 { animation: ocean-wave 18s linear infinite; opacity: 0.5; }
+            .wave-layer-3 { animation: ocean-wave 12s linear infinite; opacity: 1; }
+            @media (max-width: 767px) {
+              .wave-wrapper { animation: none !important; }
+            }
+            @media (prefers-reduced-motion: reduce) {
+              .wave-wrapper { animation-play-state: paused !important; }
+            }
+          `}</style>
+
+          <div className="wave-wrapper wave-layer-1">
+            <svg className="w-1/2 h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+              <path d="M0,30 Q150,90 300,30 T600,30 T900,30 T1200,30 V120 H0 Z" fill="var(--paper)" />
+            </svg>
+            <svg className="w-1/2 h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+              <path d="M0,30 Q150,90 300,30 T600,30 T900,30 T1200,30 V120 H0 Z" fill="var(--paper)" />
+            </svg>
           </div>
 
-          {/* Abstract Tech Stack Card */}
-          <NeuralVisualizer />
+          <div className="wave-wrapper wave-layer-2">
+            <svg className="w-1/2 h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+              <path d="M0,50 Q150,10 300,50 T600,50 T900,50 T1200,50 V120 H0 Z" fill="var(--paper)" />
+            </svg>
+            <svg className="w-1/2 h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+              <path d="M0,50 Q150,10 300,50 T600,50 T900,50 T1200,50 V120 H0 Z" fill="var(--paper)" />
+            </svg>
+          </div>
 
+          <div className="wave-wrapper wave-layer-3">
+            <svg className="w-1/2 h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+              <path d="M0,70 Q150,110 300,70 T600,70 T900,70 T1200,70 V120 H0 Z" fill="var(--paper)" />
+            </svg>
+            <svg className="w-1/2 h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+              <path d="M0,70 Q150,110 300,70 T600,70 T900,70 T1200,70 V120 H0 Z" fill="var(--paper)" />
+            </svg>
+          </div>
         </div>
-      </section>
 
-      <Capabilities />
+        <div className="hidden md:block absolute top-0 right-0 md:-top-[10%] md:-right-[10%] opacity-30 mix-blend-screen pointer-events-none z-0">
+          <OrbitMark size="xl" tone="ion" className="scale-[2.5] md:scale-[4] blur-[1px] opacity-40" />
+        </div>
 
-      <section id="contact-section" className="py-16 bg-white relative overflow-hidden">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="bg-[#020406] rounded-[3rem] overflow-hidden flex flex-col lg:flex-row shadow-2xl border border-white/5">
-            
-            {/* LEFT: Submission Terminal - Tightened padding */}
-            <div className="lg:w-3/5 p-10 lg:p-14 relative">
-              <div className="relative z-10">
-                <h2 id='collaborate' className="text-4xl font-black text-white mb-8 tracking-tighter">Let's collaborate.</h2>
+        <div className="relative z-10 w-full flex-1 flex flex-col lg:flex-row items-start justify-center pt-[8vh] sm:pt-[12vh] md:pt-0 md:items-center md:justify-between px-6 md:px-16 lg:px-24 max-w-[1600px] mx-auto gap-8 lg:gap-12">
 
-                {/* Reduced space-y from 8 to 6 */}
-                <form ref={form} onSubmit={sendEmail} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="space-y-1.5">
-                      <label className="text-[8px] font-bold text-slate-500 uppercase tracking-widest ml-4">CLIENT_ID</label>
-                      <input 
-                        name="user_name" // Ensure name matches template [cite: 2026-02-09]
-                        type="text" 
-                        placeholder="Full Name" 
-                        required
-                        className="w-full bg-white/[0.03] border border-white/5 rounded-xl p-4 text-white text-sm" 
-                      />
-                    </div>
-                    <div className="space-y-1.5">
-                      <label className="text-[8px] font-bold text-slate-500 uppercase tracking-widest ml-4">MAIL_ENDPOINT</label>
-                      <input 
-                        name="user_email" 
-                        type="email" 
-                        placeholder="Email Address" 
-                        required
-                        className="w-full bg-white/[0.03] border border-white/5 rounded-xl p-4 text-white text-sm" 
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-[8px] font-bold text-slate-500 uppercase tracking-widest ml-4">REQ_PAYLOAD</label>
-                    <textarea 
-                      name="message" 
-                      rows={3} 
-                      placeholder="Project overview..." 
-                      required
-                      className="w-full bg-white/[0.03] border border-white/5 rounded-xl p-4 text-white text-sm"
-                    />
-                  </div>
-                  <button type="submit" className="px-10 py-4 bg-indigo-600 text-white rounded-xl font-black uppercase tracking-widest text-[10px]">
-                    Push Message
-                  </button>
-                </form>
-              </div>
-              <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#4f46e5 0.5px, transparent 0.5px)', backgroundSize: '20px 20px' }}></div>
-            </div>
+          <div className="w-full lg:w-[55%] flex flex-col justify-center">
 
-            {/* RIGHT: Status Hub - Condensed Hub elements */}
-            <div className="lg:w-2/5 bg-[#05080a] border-l border-white/5 p-10 lg:p-14 text-white flex flex-col items-center justify-around relative overflow-hidden">
-              
-              <div className="relative z-10 w-full flex flex-col items-center">
-                {/* Reduced bottom margin from 16 to 8 */}
-                <div className="mb-8 flex flex-col items-center space-y-3">
-                  <span className="text-[9px] font-black uppercase tracking-[0.4em] opacity-40">Connection Status</span>
-                  <div className="px-5 py-2 bg-emerald-500/5 border border-emerald-500/20 rounded-full flex items-center space-x-2">
-                    <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
-                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-emerald-400">Nodes Accepting</span>
-                  </div>
-                </div>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="mb-8 md:mb-10 flex justify-start"
+            >
+              <LineEyes />
+            </motion.div>
 
-                {/* Centered Protocol Access - Scaled down nodes */}
-                <div className="w-full flex flex-col items-center space-y-6">
-                  <span className="text-[9px] font-black uppercase tracking-[0.4em] opacity-40">External Access</span>
-                  <div className="flex space-x-4">
-                    <a href="https://linkedin.com" className="w-16 h-16 bg-white/[0.03] border border-white/10 rounded-2xl flex items-center justify-center group hover:border-indigo-500 transition-all">
-                      <FaLinkedinIn className="text-xl text-slate-500 group-hover:text-white transition-all" />
-                    </a>
-                    <a href="https://github.com" className="w-16 h-16 bg-white/[0.03] border border-white/10 rounded-2xl flex items-center justify-center group hover:border-indigo-500 transition-all">
-                      <FaGithub className="text-xl text-slate-500 group-hover:text-white transition-all" />
-                    </a>
-                  </div>
-                </div>
-              </div>
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="text-5xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-[6rem] leading-[0.95] font-medium tracking-tight mb-4 md:mb-8 text-ink text-balance"
+              style={{ fontFamily: "var(--font-display)" }}
+            >
+              Architecting <br />
+              systems that <span className="text-ion whitespace-nowrap">
+                don&apos;t break.
+              </span>
+            </motion.h1>
 
-              {/* Technical Meta Footer - Compacted */}
-              <div className="relative z-10 w-full pt-8 border-t border-white/5 flex flex-col items-center space-y-1">
-                <div className="flex space-x-3 opacity-30 text-[7px] font-mono uppercase tracking-[0.2em]">
-                    <span>Env: bitatlim-prod</span>
-                    <span>//</span>
-                    <span>Stack: Next.js</span>
-                </div>
-              </div>
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-indigo-600/5 blur-[100px] rounded-full"></div>
-            </div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+              className="flex flex-col items-start gap-6 md:gap-8 pt-2 md:pt-4 max-w-xl pr-4"
+            >
+              <p className="text-base sm:text-lg md:text-xl font-normal text-graphite leading-relaxed">
+                <span className="text-ink font-medium">I don&apos;t build portfolios.</span> I architect backend infrastructure and applied ML systems that survive when real traffic hits.
+              </p>
+              <MagneticButton href="#contact-section" />
+            </motion.div>
+          </div>
 
+          <div className="hidden lg:flex relative w-full lg:w-1/2 h-full items-center justify-center">
+            <SystemTelemetry />
           </div>
         </div>
       </section>
 
+      {/* ── CAPABILITIES ─────────────────────────────────────────────────── */}
+      <div className="w-full flex items-center justify-center overflow-hidden py-12 md:py-0 md:h-[100dvh]">
+        <Capabilities />
+      </div>
+
+      {/* ── CONTACT ──────────────────────────────────────────────────────── */}
+      <section id="contact-section" className="bg-paper relative flex flex-col justify-center items-center px-4 md:px-0 pt-16 pb-0 mb-0">
+        <div className="w-full max-w-6xl mx-auto flex flex-col bg-white rounded-t-3xl rounded-b-none border border-b-0 border-ink/15 shadow-sm p-6 sm:p-10 lg:p-20 pb-20 sm:pb-24 lg:pb-32 relative">
+          <div className="relative z-10 w-full flex flex-col lg:flex-row gap-8 lg:gap-24">
+            <div className="w-full lg:w-1/3 flex flex-col justify-between">
+              <div>
+                <h2
+                  className="text-3xl sm:text-4xl md:text-[3.5rem] font-medium text-ink mb-4 md:mb-6 tracking-tight leading-[0.9]"
+                  style={{ fontFamily: "var(--font-display)" }}
+                >
+                  Let&rsquo;s build.
+                </h2>
+                <p className="text-graphite text-[13px] md:text-[15px] leading-relaxed mb-6 lg:mb-0">
+                  Whether you need scalable backend architecture, applied machine learning systems, or a resilient pipeline—I am ready to deploy.
+                </p>
+              </div>
+
+              <div className="flex flex-col space-y-3 md:space-y-4">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-graphite-2">Direct Telemetry</span>
+                <div className="flex gap-3">
+                  <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-none border border-ink/10 hover:bg-ink hover:text-paper hover:border-ink transition-colors duration-300">
+                    <FaLinkedinIn className="text-base md:text-lg" />
+                  </a>
+                  <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-none border border-ink/10 hover:bg-ink hover:text-paper hover:border-ink transition-colors duration-300">
+                    <FaGithub className="text-base md:text-lg" />
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full lg:w-2/3">
+              <form ref={form} onSubmit={sendEmail} className="space-y-4 md:space-y-6">
+                <div className="flex flex-col md:flex-row gap-4 md:gap-6">
+                  <div className="space-y-1 md:space-y-2 w-full">
+                    <label className="text-[10px] md:text-[11px] font-medium text-graphite-2 uppercase tracking-wide">Your name</label>
+                    <input name="user_name" type="text" placeholder="Jane Doe" required className="w-full bg-transparent border-b border-ink/10 px-0 py-2 md:py-3 text-ink text-sm placeholder:text-ink/20 focus:outline-none focus:border-ink transition-colors" />
+                  </div>
+                  <div className="space-y-1 md:space-y-2 w-full">
+                    <label className="text-[10px] md:text-[11px] font-medium text-graphite-2 uppercase tracking-wide">Email address</label>
+                    <input name="user_email" type="email" placeholder="jane@company.com" required className="w-full bg-transparent border-b border-ink/10 px-0 py-2 md:py-3 text-ink text-sm placeholder:text-ink/20 focus:outline-none focus:border-ink transition-colors" />
+                  </div>
+                </div>
+                <div className="space-y-1 md:space-y-2 pt-2">
+                  <label className="text-[10px] md:text-[11px] font-medium text-graphite-2 uppercase tracking-wide">What are you building?</label>
+                  <textarea name="message" rows={3} placeholder="Tell me a little about the project..." required className="w-full bg-transparent border-b border-ink/10 px-0 py-2 md:py-3 text-ink text-sm placeholder:text-ink/20 focus:outline-none focus:border-ink transition-colors resize-none" />
+                </div>
+                <button type="submit" disabled={status === "sending"} className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 md:px-8 md:py-4 mt-2 rounded-none border border-ink/15 hover:bg-ink hover:text-paper hover:border-ink text-ink transition-colors duration-300 font-mono text-[10px] md:text-[11px] uppercase tracking-[0.2em] font-medium disabled:opacity-60">
+                  {status === "sent" ? <><LuCheck /> Transmitted</> : status === "sending" ? "Transmitting…" : <>Initialize Link <LuArrowUpRight /></>}
+                </button>
+                {status === "error" && <p className="text-[11px] text-red-400 mt-2">Connection failed. Please use direct telemetry (email).</p>}
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

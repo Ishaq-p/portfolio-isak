@@ -1,145 +1,128 @@
 "use client";
-import { motion } from "framer-motion";
-import Link from 'next/link';
+import Link from "next/link";
+import OrbitMark from "./OrbitMark";
+import { FaLinkedinIn, FaGithub } from "react-icons/fa6";
+import { usePathname } from "next/navigation";
 
-export default function Footer() {
 const stats = [
-  { 
-    label: "Projects", 
-    value: "8+", 
-    sub: "ML // Systems" 
-  },
-  { 
-    label: "Research", 
-    value: "Active", 
-    sub: "JRavi_Lab // Bio" 
-  },
-  { 
-    label: "Hobby", 
-    value: "FLIGHT SIM", 
-    sub: "Flight Sim // Virtual" 
-  },
-
+  { label: "Projects shipped", value: "8+" },
+  { label: "Research", value: "Active" },
+  { label: "Verbal Languages", value: "5" },
 ];
 
-{/* Compact Footer Metrics */}
-<div className="lg:col-span-3 grid grid-cols-3 gap-3">
-  {stats.map((stat, i) => (
-    <div key={i} className="p-3 bg-white/[0.02] border border-white/5 rounded-xl hover:border-indigo-500/50 transition-all">
-      <span className="block text-[7px] font-black uppercase tracking-widest text-slate-600 mb-1">{stat.label}</span>
-      <div className="text-xl font-black text-white tracking-tighter leading-none">{stat.value}</div>
-      <div className="text-[6px] font-mono text-indigo-400 uppercase mt-1.5">{stat.sub}</div>
-    </div>
-  ))}
-</div>
+export default function Footer() {
+    const pathname = usePathname();
+    
+    // Define which routes should use the light theme. 
+    // Add any other light pages to this array.
+    const isPort = ["/portfolio"].includes(pathname);
 
-
-  // Path 1: Entry -> Top Branch (Neural) -> Exit
-  const pathTop = "M 50,130 L 150,130 L 180,80 L 320,80 L 350,130 L 450,130";
-  // Path 2: Entry -> Bottom Branch (SQL) -> Exit
-  const pathBottom = "M 50,130 L 150,130 L 180,180 L 320,180 L 350,130 L 450,130";
-
+    if (isPort) {
+      return 
+    }
+  
   return (
-    <footer className="bg-[#010204] pt-20 pb-10 text-slate-500 font-mono border-t border-indigo-900/30 overflow-hidden">
+    <footer className="relative z-30 bg-[#0B0E13] text-[#F6F6F3]/50 pt-24 pb-10 selection:bg-[#4A54F1] selection:text-[#F6F6F3]">
+      {/* Belly-Up Curve Divider */}
+      <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0] z-10 -translate-y-full">
+        <svg 
+          className="relative block w-full h-[40px] md:h-[80px]" 
+          viewBox="0 0 1200 120" 
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          {/* A smooth quadratic bezier curve that forms a dome (belly up) */}
+          <path d="M0,120 Q600,0 1200,120 Z" fill="#0B0E13" />
+        </svg>
+      </div>
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-12 gap-12 items-center">
-          
-          {/* Identity Section */}
-          <div className="lg:col-span-3 space-y-8">
-            <Link href="/" className="text-2xl font-black tracking-tighter text-white block">
-              PAKTINYAR<span className="text-indigo-500 animate-pulse">_</span>
+        <div className="grid md:grid-cols-12 gap-12 pb-16 border-b border-[#F6F6F3]/10">
+          {/* Identity */}
+          <div className="md:col-span-5 space-y-6">
+            <Link href="/" className="flex items-center gap-2.5 w-fit group">
+              <OrbitMark size="sm" tone="ion" />
+              <span
+                className="text-lg font-black text-[#F6F6F3] uppercase tracking-widest"
+                style={{ fontFamily: "var(--font-display)" }}
+              >
+                Paktinyar
+              </span>
             </Link>
-            <div className="space-y-4">
-              <div className="text-[9px] font-black uppercase tracking-[0.4em] text-slate-600">Active Services</div>
-              <ul className="space-y-2 text-[10px] font-bold text-slate-400">
-                <li className="flex items-center"><span className="w-1 h-1 bg-indigo-500 mr-3"></span> API Architecture</li>
-                <li className="flex items-center"><span className="w-1 h-1 bg-emerald-500 mr-3"></span> Database Design</li>
-                <li className="flex items-center"><span className="w-1 h-1 bg-fuchsia-500 mr-3"></span> Bio-Neural Modeling</li>
-              </ul>
+            <p className="text-sm font-light leading-relaxed max-w-sm text-[#F6F6F3]/60">
+              Software engineer and bioinformatics researcher based in Istanbul. 
+              Building backend systems and applied ML, one careful decision at a time.
+            </p>
+            <div className="flex items-center gap-3 pt-2">
+              <a
+                href="https://github.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-none flex items-center justify-center hover:bg-[#F6F6F3] hover:text-[#0B0E13] text-[#F6F6F3] transition-colors"
+                aria-label="GitHub"
+              >
+                <FaGithub className="text-[15px]" />
+              </a>
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-none flex items-center justify-center hover:bg-[#F6F6F3] hover:text-[#0B0E13] text-[#F6F6F3] transition-colors"
+                aria-label="LinkedIn"
+              >
+                <FaLinkedinIn className="text-[15px]" />
+              </a>
             </div>
           </div>
 
-          {/* RECTIFIED TRACE: Converging Architecture Visual */}
-          <div className="lg:col-span-6 relative h-64 bg-white/[0.01] rounded-3xl border border-white/5 flex items-center justify-center">
-            <svg width="100%" height="100%" className="absolute inset-0 pointer-events-none opacity-40" viewBox="0 0 500 260">
-              <defs>
-                <pattern id="dotGrid" width="20" height="20" patternUnits="userSpaceOnUse">
-                  <circle cx="2" cy="2" r="0.5" fill="#1e293b" />
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#dotGrid)" />
-              
-              {/* Converging Paths */}
-              <path d={pathTop} stroke="rgba(99, 102, 241, 0.2)" strokeWidth="1" fill="none" />
-              <path d={pathBottom} stroke="rgba(99, 102, 241, 0.2)" strokeWidth="1" fill="none" />
-              
-              {/* Neural Branch Packet */}
-              <motion.circle r="3" fill="#10b981" style={{ offsetPath: `path('${pathTop}')` }}
-                animate={{ offsetDistance: ["0%", "100%"] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-              />
-              
-              {/* SQL Branch Packet */}
-              <motion.circle r="3" fill="#d946ef" style={{ offsetPath: `path('${pathBottom}')` }}
-                animate={{ offsetDistance: ["0%", "100%"] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "linear", delay: 2 }}
-              />
-            </svg>
-
-            {/* Logical Nodes Styled as Infrastructure */}
-            <div className="flex items-center justify-between w-full px-8 z-10 relative">
-              <Node label="GATEWAY" sub="API" color="indigo" />
-              <div className="space-y-16">
-                <Node label="BIO_SEQ" sub="NEURAL" color="emerald" />
-                <Node label="PERSIST" sub="SQL" color="fuchsia" />
+          <div className="md:col-span-7 grid grid-cols-2 md:grid-cols-7 gap-6 md:gap-12">
+            {/* Nav */}
+            <div className="md:col-span-3 space-y-4 md:space-y-5 mt-2">
+              <p className="font-mono text-[11px] md:text-xs uppercase tracking-widest text-[#4A54F1]">Navigate</p>
+              <div className="flex flex-col gap-3 md:gap-4 text-[13px] md:text-sm font-light text-[#F6F6F3]/60">
+                <Link href="/" className="hover:text-[#F6F6F3] transition-colors w-fit">Home</Link>
+                <Link href="/portfolio" className="hover:text-[#F6F6F3] transition-colors w-fit">Work</Link>
+                <Link href="/portfolio#experiences" className="hover:text-[#F6F6F3] transition-colors w-fit">Experience</Link>
+                <a href="#contact-section" className="hover:text-[#F6F6F3] transition-colors w-fit">Contact</a>
               </div>
-              <Node label="EXIT" sub="200_OK" color="indigo" />
+            </div>
+
+            {/* Stats - Brutalist Wireframe */}
+            <div className="md:col-span-4 mt-2">
+              <p className="font-mono text-[11px] md:text-xs uppercase tracking-widest text-[#4A54F1] mb-4 md:mb-5">Telemetry</p>
+              <div className="flex flex-col md:grid md:grid-cols-2 md:gap-px md:bg-[#F6F6F3]/20">
+                {[
+                  { label: "Projects", mdLabel: "Projects shipped", value: "8+" },
+                  { label: "Research", mdLabel: "Research", value: "Active" },
+                  { label: "Languages", mdLabel: "Verbal Languages", value: "5" },
+                ].map((s, i) => (
+                  <div
+                    key={s.label}
+                    className={`py-2.5 md:p-5 bg-transparent md:bg-[#0B0E13] flex flex-row md:flex-col justify-between items-center md:items-start border-b border-[#F6F6F3]/5 md:border-0 last:border-0 ${i === 2 ? "md:col-span-2 md:flex-row md:items-center" : "md:aspect-square"}`}
+                  >
+                    <div className="text-[10px] md:text-[10px] font-mono text-[#F6F6F3]/40 uppercase tracking-wider">
+                      <span className="md:hidden">{s.label}</span>
+                      <span className="hidden md:inline">{s.mdLabel}</span>
+                    </div>
+                    <div className="text-[14px] md:text-3xl font-black text-[#F6F6F3]" style={{ fontFamily: "var(--font-display)" }}>
+                      {s.value}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-
-          {/* Project Metrics */}
-            {/* Compact Footer Metrics */}
-            <div className="lg:col-span-2 grid grid-cols-1 gap-3">
-            {stats.map((stat, i) => (
-                <div key={i} className="p-3 bg-white/[0.02] border justify-items-center border-white/5 rounded-xl hover:border-indigo-500/50 transition-all">
-                <span className="block text-[10px] font-black uppercase tracking-widest text-slate-600 mb-1">{stat.label}</span>
-                <div className="text-xl font-black text-white tracking-tighter leading-none">{stat.value}</div>
-                <div className="text-[7px] font-mono text-indigo-400 uppercase mt-1.5">{stat.sub}</div>
-                </div>
-            ))}
-            </div>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-slate-900 flex flex-col md:flex-row justify-start items-center gap-6 text-[8px] font-black uppercase tracking-[0.5em] text-slate-700">
-          <p className="flex items-center">
-            <span className="w-2 h-2 rounded-full bg-emerald-500/20 flex items-center justify-center mr-3">
-              <span className="w-1 h-1 bg-emerald-500 rounded-full animate-ping"></span>
-            </span>
-            Cluster: paktinyar-prod // VSCode Instance //
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs font-mono text-[#F6F6F3]/30 uppercase">
+            © {new Date().getFullYear()} ISHAQ PAKTINYAR. SYS_ONLINE.
           </p>
-          <div className="flex space-x-10 text-[9px]">
-            <a href="#" className="hover:text-indigo-100 text-indigo-500 transition-colors">GitHub</a>
-            <a href="#" className="hover:text-indigo-100 text-indigo-500 transition-colors">LinkedIn</a>
+          <div className="flex items-center gap-2 font-mono text-xs text-[#F6F6F3]/40 uppercase">
+            <span className="w-2 h-2 rounded-none bg-[#4A54F1] animate-pulse" />
+            Accepting Load
           </div>
         </div>
       </div>
     </footer>
-  );
-}
-
-function Node({ label, sub, color }: { label: string, sub: string, color: string }) {
-  const colors: any = {
-    indigo: "border-indigo-500/30 text-indigo-500",
-    emerald: "border-emerald-500/30 text-emerald-500",
-    fuchsia: "border-fuchsia-500/30 text-fuchsia-500",
-  };
-  return (
-    <div className="text-center group">
-      <div className={`w-11 h-11 bg-slate-950 border ${colors[color]} rounded-xl flex items-center justify-center mb-2 mx-auto shadow-[0_0_15px_rgba(0,0,0,0.5)] group-hover:scale-110 transition-transform`}>
-        <div className={`w-1 h-1 rounded-full bg-current animate-pulse`}></div>
-      </div>
-      <p className="text-[7px] font-black text-white tracking-widest">{label}</p>
-      <p className="text-[6px] font-bold text-slate-600 tracking-tighter uppercase">{sub}</p>
-    </div>
   );
 }

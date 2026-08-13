@@ -1,83 +1,174 @@
 "use client";
-import { useState } from 'react';
-import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
-import { LuMenu, LuX, LuChevronDown, LuFileDown } from 'react-icons/lu';
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import { LuMenu, LuX, LuChevronDown, LuArrowUpRight } from "react-icons/lu";
+import OrbitMark from "./OrbitMark";
+import MagneticButton from "./MagneticButton";
 
 export default function Navbar() {
+  const pathname = usePathname();
+
+  // Define which routes should hide the global Navbar (because they use SideNav).
+  const hideNavbar = 
+    pathname === "/portfolio" || 
+    pathname.startsWith("/portfolio/project") || 
+    pathname.startsWith("/portfolio/experience");
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [resumeOpen, setResumeOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const resumes = [
-    { label: "EN_PROTOCOL", lang: "English", path: "/ishaq_cv.pdf" },
-    { label: "TR_PROTOKOLÜ", lang: "Türkçe", path: "/ishaq_cv-turkish.pdf" },
+    { label: "English", sub: "CV — EN", path: "/ishaq_cv.pdf" },
+    { label: "Türkçe", sub: "CV — TR", path: "/ishaq_cv-turkish.pdf" },
   ];
 
+  // Theme dictionaries driven dynamically by the route
+  const fg = "text-ink";
+  const fgMuted = "text-graphite";
+  const border = "border-ink/10";
+  const bgNav = "bg-paper/90";
+  const bgDropdown = "bg-paper";
+  const btnHover = "hover:bg-ink hover:text-paper hover:border-ink";
+
+  if (hideNavbar) {
+    return null;
+  }
+
   return (
-    <nav className="sticky top-0 z-50 backdrop-blur-md bg-white/70 border-b border-slate-200/60 px-6 md:px-8 py-4 font-sans">
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
-        {/* BRAND IDENTITY */}
-        <Link href="/" className="text-xl md:text-2xl font-black tracking-tight text-slate-900">
-          PAKTINYAR<span className="text-indigo-600">.</span>
+    <nav
+      className={`fixed w-full top-0 z-50 transition-all duration-300 px-6 md:px-10 ${scrolled
+        ? `${bgNav} backdrop-blur-md border-b ${border} py-3`
+        : "bg-transparent border-b border-transparent py-5"
+        }`}
+    >
+      <div className="max-w-6xl mx-auto flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <OrbitMark size="xs" tone="ion" />
+          <span
+            className={`text-[15px] font-semibold tracking-tight ${fg}`}
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            Paktinyar
+          </span>
         </Link>
 
-        {/* DESKTOP UI (Standard Operation) */}
-        <div className="hidden md:flex items-center space-x-10 text-sm font-semibold uppercase tracking-wider text-slate-600">
-          <Link href="/" className="hover:text-indigo-600 transition-colors">Home</Link>
-          <Link href="/portfolio" className="hover:text-indigo-600 transition-colors">Portfolio</Link>
-          
-          <div className="relative" onMouseEnter={() => setResumeOpen(true)} onMouseLeave={() => setResumeOpen(false)}>
-            <span className="hover:text-indigo-600 transition-colors flex items-center gap-1 cursor-pointer">
-              Resume <LuChevronDown className="text-[10px]" />
+        <div className={`hidden md:flex items-center gap-9 text-[13px] font-medium ${fgMuted}`}>
+          <Link href="/" className={`${pathname === "/" ? fg : "hover:text-ink"} transition-colors relative flex items-center`}>
+            {pathname === "/" && <span className="absolute -left-3 w-1 h-1 rounded-full bg-ion" />}
+            Home
+          </Link>
+          <Link href="/portfolio" className={`${pathname === "/portfolio" ? fg : "hover:text-ink"} transition-colors relative flex items-center`}>
+            {pathname === "/portfolio" && <span className="absolute -left-3 w-1 h-1 rounded-full bg-ion" />}
+            Work
+          </Link>
+
+          <div
+            className="relative"
+            onMouseEnter={() => setResumeOpen(true)}
+            onMouseLeave={() => setResumeOpen(false)}
+          >
+            <span className={`hover:${fg.replace("text-", "text-")} transition-colors flex items-center gap-1.5 cursor-pointer`}>
+              Résumé <LuChevronDown className="text-[11px]" />
             </span>
             <AnimatePresence>
               {resumeOpen && (
-                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} className="absolute top-full right-0 mt-2 w-48 bg-white border border-slate-200 shadow-xl rounded-xl p-2">
-                   {resumes.map(res => (
-                    <Link key={res.label} href={res.path} target="_blank" className="flex flex-col px-3 py-2 hover:bg-indigo-50 rounded-lg group">
-                      <span className="text-[10px] font-black text-slate-900 group-hover:text-indigo-600">{res.label}</span>
-                      <span className="text-[9px] font-mono text-slate-400 italic lowercase">// {res.lang}</span>
-                    </Link>
-                  ))}
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute top-full right-0 pt-3 w-44"
+                >
+                  <div className={`${bgDropdown} border ${border} rounded-none p-1.5 shadow-xl shadow-black/10`}>
+                    {resumes.map((res) => (
+                      <Link
+                        key={res.label}
+                        href={res.path}
+                        target="_blank"
+                        className={`flex items-center justify-between px-3.5 py-2.5 hover:bg-ink/5 rounded-none group/item transition-colors`}
+                      >
+                        <div className="flex flex-col">
+                          <span className={`text-[12px] font-medium ${fg}`}>{res.label}</span>
+                          <span className={`text-[10px] ${fgMuted}`}>{res.sub}</span>
+                        </div>
+                        <LuArrowUpRight
+                          size={12}
+                          className={`${fgMuted} group-hover/item:text-ion group-hover/item:translate-x-0.5 group-hover/item:-translate-y-0.5 transition-all`}
+                        />
+                      </Link>
+                    ))}
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
+
+          <MagneticButton href="#contact-section" />
         </div>
 
-        {/* MOBILE TRIGGER (Hamburger) */}
-        <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="md:hidden p-2 text-slate-900">
-          {isMobileMenuOpen ? <LuX size={24} /> : <LuMenu size={24} />}
+        <button
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className={`md:hidden p-2 -mr-2 ${fg}`}
+          aria-label="Toggle menu"
+        >
+          {isMobileMenuOpen ? <LuX size={22} /> : <LuMenu size={22} />}
         </button>
       </div>
 
-      {/* MOBILE COMMAND OVERLAY */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, height: 0 }} 
-            animate={{ opacity: 1, height: 'auto' }} 
-            exit={{ opacity: 0, height: 0 }} 
-            className="md:hidden overflow-hidden bg-white/95 border-t border-slate-100"
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className={`md:hidden overflow-hidden ${bgDropdown} border-b ${border}`}
           >
-            <div className="flex flex-col p-6 space-y-6">
-              <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-bold uppercase text-slate-600">Home</Link>
-              <Link href="/portfolio" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-bold uppercase text-slate-600">Portfolio</Link>
-              
-              {/* MOBILE RESUME ACCORDION */}
-              <div className="space-y-4">
-                <p className="text-[10px] font-mono text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-2">Resume_Protocols</p>
-                <div className="grid grid-cols-1 gap-2">
-                  {resumes.map(res => (
-                    <Link key={res.label} href={res.path} target="_blank" className="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
-                      <div>
-                        <p className="text-xs font-black text-slate-900">{res.label}</p>
-                        <p className="text-[10px] text-slate-500 font-mono italic lowercase">// {res.lang}</p>
-                      </div>
-                      <LuFileDown className="text-indigo-600" />
-                    </Link>
-                  ))}
-                </div>
+            <div className="flex flex-col pt-6 pb-6 px-6 gap-5">
+              <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className={`text-[15px] font-medium flex items-center gap-2 ${pathname === "/" ? fg : fgMuted}`}>
+                {pathname === "/" && <span className="w-1.5 h-1.5 rounded-full bg-ion" />} Home
+              </Link>
+              <Link
+                href="/portfolio"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={`text-[15px] font-medium flex items-center gap-2 ${pathname === "/portfolio" ? fg : fgMuted}`}
+              >
+                {pathname === "/portfolio" && <span className="w-1.5 h-1.5 rounded-full bg-ion" />} Work
+              </Link>
+              <a
+                href="#contact-section"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className={`text-[15px] font-medium ${fg}`}
+              >
+                Initialize
+              </a>
+
+              <div className={`pt-4 border-t ${border} space-y-2`}>
+                <p className={`font-mono text-xs ${fgMuted} mb-3 uppercase`}>Résumé</p>
+                {resumes.map((res) => (
+                  <Link
+                    key={res.label}
+                    href={res.path}
+                    target="_blank"
+                    className={`flex items-center justify-between p-3.5 bg-ink/5 rounded-none border ${border}`}
+                  >
+                    <div>
+                      <p className={`text-[13px] font-medium ${fg}`}>{res.label}</p>
+                      <p className={`text-[11px] ${fgMuted}`}>{res.sub}</p>
+                    </div>
+                    <LuArrowUpRight className="text-ion" size={14} />
+                  </Link>
+                ))}
               </div>
             </div>
           </motion.div>

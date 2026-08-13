@@ -1,7 +1,7 @@
 "use client";
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { LuFilter, LuChevronDown } from "react-icons/lu";
+import { motion } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
+import { useDragScroll } from "../hooks/useDragScroll";
 
 interface FilterProps {
   projects: any[];
@@ -10,58 +10,75 @@ interface FilterProps {
 }
 
 export default function FilterJumble({ projects, activeFilter, setActiveFilter }: FilterProps) {
-  const [isOpen, setIsOpen] = useState(false); // Collapsed by default [cite: 2025-11-29]
+  const domains = projects?.flatMap((p) => p.short_card.domain) || [];
+  const uniqueDomains = ["All", ...Array.from(new Set(domains))];
 
-  const domains = projects?.flatMap(p => p.short_card.domain) || [];
-  const uniqueDomains = ["ALL", ...Array.from(new Set(domains))];
+  const scrollRef = useRef<HTMLDivElement>(null);
+  
+  // Enable drag-to-scroll via React event handlers
+  const dragScrollProps = useDragScroll();
+
+  const [showLeftGradient, setShowLeftGradient] = useState(false);
+  const [showRightGradient, setShowRightGradient] = useState(true);
+
+  const checkScroll = () => {
+    if (!scrollRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+    setShowLeftGradient(scrollLeft > 5);
+    setShowRightGradient(scrollLeft < scrollWidth - clientWidth - 5);
+  };
+
+  useEffect(() => {
+    checkScroll();
+    window.addEventListener("resize", checkScroll);
+    return () => window.removeEventListener("resize", checkScroll);
+  }, [projects]);
 
   return (
-    <div className="flex flex-col items-start lg:items-end gap-4 ">
-      {/* Toggle Switch: The [SYSTEM_PROTOCOL] Gate [cite: 2025-11-28] */}
-      <button 
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-3 px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg group hover:border-indigo-400 transition-all"
-      >
-        <LuFilter className={`text-xs ${isOpen ? 'text-indigo-600' : 'text-slate-400'}`} />
-        <span className="font-mono text-[10px] font-black uppercase tracking-widest text-slate-600">
-          {isOpen ? "CLOSE_FILTERS" : "OPEN_SYSTEM_FILTERS"}
-        </span>
-        <motion.div animate={{ rotate: isOpen ? 180 : 0 }}>
-          <LuChevronDown className="text-slate-400" />
-        </motion.div>
-      </button>
+    <div className="relative w-full max-w-full flex justify-center">
+      
+      {/* Scroll indicator gradients (light theme) */}
+      {showLeftGradient && (
+        <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-paper to-transparent z-20 pointer-events-none" />
+      )}
+      {showRightGradient && (
+        <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-paper to-transparent z-20 pointer-events-none" />
+      )}
 
-      {/* Retractable Jumble [cite: 2026-02-08] */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0, scale: 0.95 }}
-            animate={{ height: "auto", opacity: 1, scale: 1 }}
-            exit={{ height: 0, opacity: 0, scale: 0.95 }}
-            className="overflow-hidden"
-          >
-            <div className="flex flex-wrap justify-start lg:justify-end gap-2 max-w-7xl py-2">
-              {uniqueDomains.map((domain) => {
-                const isActive = activeFilter === domain;
-                return (
-                  <button
-                    key={domain}
-                    onClick={() => setActiveFilter(domain)}
-                    className={`
-                      px-4 py-2 rounded-full border text-[10px] font-mono font-black uppercase tracking-widest transition-all
-                      ${isActive 
-                        ? "bg-indigo-600 border-indigo-600 text-white shadow-lg shadow-indigo-500/10" 
-                        : "bg-white border-slate-100 text-slate-400 hover:border-indigo-300"}
-                    `}
-                  >
-                    {domain}
-                  </button>
-                );
-              })}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <div 
+        ref={scrollRef}
+        onScroll={checkScroll}
+        {...dragScrollProps}
+        className="flex items-center gap-1.5 p-1.5 rounded-full border border-ink/[0.08] bg-white shadow-sm overflow-x-auto scrollbar-hide snap-x"
+      >
+        {uniqueDomains.map((domain) => {
+          const isActive = activeFilter === domain || (domain === "All" && activeFilter === "ALL");
+          const value = domain === "All" ? "ALL" : domain;
+          return (
+            <button
+              key={domain}
+              onClick={() => {
+                setActiveFilter(value);
+                const btn = document.getElementById(`filter-btn-${domain}`);
+                btn?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+              }}
+              id={`filter-btn-${domain}`}
+              className={`relative px-5 py-2.5 rounded-full text-[11px] font-mono tracking-widest uppercase transition-colors z-10 shrink-0 snap-center group ${isActive ? "text-white" : "text-graphite hover:text-ink"}`}
+            >
+              {isActive ? (
+                <motion.div
+                  layoutId="activeProjectFilter"
+                  className="absolute inset-0 bg-ink rounded-full -z-10 shadow-md"
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                />
+              ) : (
+                <div className="absolute inset-0 bg-paper rounded-full -z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
+              )}
+              {domain}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Paktinyar Portfolio — Redesign
 
-## Getting Started
+Drop the `app/` folder in here into your existing Next.js project (it will
+overwrite the files below — everything else in your project, including your
+`public/data/*.json`, is untouched).
 
-First, run the development server:
+## 1. Install two new dependencies
+
+The new design self-hosts its fonts (no Google Fonts network call, faster
+and more reliable) via Fontsource:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install @fontsource/fraunces @fontsource/inter @fontsource/ibm-plex-mono
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Everything else (`next`, `react`, `framer-motion`, `react-icons`,
+`@emailjs/browser`, `tailwindcss` v4) is already in your project.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 2. Files changed
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `globals.css` — new design tokens (colors, type scale), self-hosted fonts
+- `layout.tsx` — simplified, no next/font/google
+- `components/OrbitMark.tsx` — **new**. The atom/orbit signature mark you
+  liked, now a reusable component used in the navbar, both heroes, the
+  footer, and the contact card
+- `components/Navbar.tsx`, `components/Footer.tsx` — rebuilt
+- `page.tsx` (home) — rebuilt with real copy about you instead of the
+  generic agency placeholder text
+- `components/Capabilities.tsx` — kept your liked tilt-card mechanic,
+  restyled to match the new system
+- `components/SocialImpact.tsx` ("Human Interoperability") — kept the name
+  and structure you liked, restyled
+- `components/ProjectCard.tsx`, `components/ExperienceCard.tsx`,
+  `components/FilterJumble.tsx`, `components/ConnectionProtocol.tsx` —
+  rebuilt
+- `portfolio/page.tsx` — rebuilt
+- `components/project/Arch.tsx`, `components/project/Constraints.tsx`,
+  `portfolio/project/[id]/page.tsx`,
+  `portfolio/experience/[id]/page.tsx` — rebuilt
 
-## Learn More
+## 3. Removed (now unused)
 
-To learn more about Next.js, take a look at the following resources:
+`components/NeuralNetwork.tsx` and `components/FooterMetrics.tsx` are no
+longer imported anywhere. They're not included in this delivery — safe to
+delete from your project if you still have them.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 4. Design system, in short
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Colors** — near-black "ink" + cool "paper" white, with a precise
+  blue-violet ("ion") as the primary accent and a muted green ("culture")
+  as a secondary accent for status/bio-adjacent moments. No orange/terracotta,
+  no generic neon-hacker green.
+- **Type** — Fraunces (serif display, for headlines) + Inter (body) + IBM
+  Plex Mono (used sparingly, only for real data: metrics, stack tags — not
+  as decoration on every label).
+- **Signature** — `OrbitMark`, the atom/electron motif, reused everywhere
+  instead of being a one-off hero graphic.
+- **Copy** — removed the terminal/hacker jargon (`CLIENT_ID`, `PUSH_MESSAGE`,
+  `bitatlim-prod`, ghost index numbers on non-sequential content) in favor
+  of plain, confident language.
+- **Motion** — orchestrated hero reveal, scroll-triggered reveals, magnetic
+  tilt cards, tab transitions. Respects `prefers-reduced-motion`.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+All tested in a full Next.js build (dev + production build, zero type
+errors) with sample data matching your existing JSON schema, across desktop
+and mobile widths.

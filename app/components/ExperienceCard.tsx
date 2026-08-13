@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { LuMapPin, LuArrowUpRight, LuCircleDot } from "react-icons/lu";
+import { LuMapPin, LuArrowUpRight } from "react-icons/lu";
 import Link from "next/link";
 
 export default function ExperienceCard({ exp }: { exp: any }) {
@@ -11,113 +11,78 @@ export default function ExperienceCard({ exp }: { exp: any }) {
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.4, delay: exp.index * 0.07 }}
-      className="group relative flex flex-col bg-[#0a0f14] border border-white/[0.06] rounded-2xl overflow-hidden hover:border-indigo-500/30 transition-all duration-500 hover:shadow-[0_0_40px_-8px_rgba(99,102,241,0.2)]"
+      transition={{ duration: 0.6, delay: (exp.index || 0) * 0.06, type: "spring", stiffness: 200, damping: 25 }}
+      className="group relative h-full w-full flex flex-col bg-white/[0.03] border border-white/[0.08] rounded-[24px] overflow-hidden transition-all duration-500 shadow-sm hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.4)] hover:-translate-y-1.5 hover:bg-white/[0.05]"
     >
-      {/* Top accent bar — animates in on hover */}
-      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-indigo-500/0 via-indigo-500 to-violet-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-      <div className="flex flex-col h-full p-6 gap-5">
-
-        {/* ── Row 1: Index + Live badge + Date ───────────────────────── */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="font-mono text-[9px] font-black text-white/10 tracking-widest">
-              {String(exp.index).padStart(2, "0")}
+      <div className="relative z-10 flex flex-col h-full p-6 md:p-7 gap-5">
+        
+        {/* Header row */}
+        <div className="flex flex-col gap-2 shrink-0">
+          <div className="flex items-center justify-between gap-4">
+            <span className="shrink-0 font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-ion-soft">
+              {isPresent ? "Active" : "Complete"}
             </span>
-            {isPresent && (
-              <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-                <span className="w-1 h-1 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="font-mono text-[8px] font-black text-emerald-400 uppercase tracking-widest">
-                  Active
-                </span>
-              </span>
+            
+            {exp.has_details_page && (
+              <Link
+                href={exp.links?.details || "#"}
+                className="w-7 h-7 rounded-full border border-white/10 flex items-center justify-center bg-white/5 shadow-sm hover:bg-white hover:text-ink hover:border-white transition-all duration-300 hover:shadow-md group/cta z-20"
+                title="View Details"
+              >
+                <LuArrowUpRight
+                  size={13}
+                  className="text-white/60 group-hover/cta:text-ink group-hover/cta:translate-x-[1px] group-hover/cta:-translate-y-[1px] transition-all duration-300"
+                />
+              </Link>
             )}
           </div>
-          <p className="font-mono text-[9px] text-white/30 tracking-widest">
-            {exp.duration.start} — {exp.duration.end}
-          </p>
-        </div>
-
-        {/* ── Row 2: Role + Org ────────────────────────────────────────── */}
-        <div className="space-y-2">
-          <h3 className="text-xl font-black text-white tracking-tight leading-none">
+          
+          <h3
+            className="text-2xl md:text-3xl font-semibold text-white tracking-tight leading-tight truncate"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
             {exp.role}
           </h3>
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-            <span className="text-[13px] font-bold text-indigo-400">
+          <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 mt-1">
+            <span className="text-[12px] font-mono tracking-widest uppercase text-white/50 truncate">
               {exp.organization}
             </span>
-            <span className="text-white/10 text-xs hidden sm:inline">·</span>
-            <span className="flex items-center gap-1 text-[11px] text-white/30 font-mono">
+            <span className="text-white/15 text-xs hidden sm:inline">·</span>
+            <span className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-widest text-white/40 shrink-0">
               <LuMapPin size={10} />
               {exp.location}
             </span>
+            <span className="text-white/15 text-xs hidden sm:inline">·</span>
+            <span className="font-mono text-[10px] uppercase tracking-widest text-white/40 shrink-0">
+               {exp.duration.start} – {exp.duration.end}
+            </span>
           </div>
         </div>
 
-        {/* ── Row 3: Summary ──────────────────────────────────────────── */}
-        <p className="text-[12px] text-white/40 leading-relaxed font-medium line-clamp-2">
+        {/* Tagline / Summary */}
+        <p className="text-[14.5px] text-white/70 leading-relaxed line-clamp-2 shrink-0 max-w-[95%]">
           {exp.summary}
         </p>
 
-        {/* ── Row 4: Key Impact ───────────────────────────────────────── */}
-        <ul className="space-y-2">
-          {exp.key_impact.slice(0, 2).map((point: string, i: number) => (
-            <li key={i} className="flex items-start gap-2.5">
-              <LuCircleDot size={10} className="text-indigo-500/60 mt-[3px] shrink-0" />
-              <span className="text-[11px] text-white/50 leading-snug font-medium">
-                {point}
-              </span>
+        {/* Key Impact (Metrics/Bullets) */}
+        <ul className="space-y-2.5 shrink-0 min-h-[52px] mt-2">
+          {exp.key_impact?.slice(0, 2).map((point: string, i: number) => (
+            <li key={i} className="flex items-start gap-3">
+              <span className="w-1 h-1 rounded-full bg-ion-soft mt-[8px] shrink-0" />
+              <span className="text-[13px] text-white/60 leading-relaxed line-clamp-2">{point}</span>
             </li>
           ))}
         </ul>
 
-        {/* ── Row 5: Stack pills ──────────────────────────────────────── */}
-        <div className="flex flex-wrap gap-1.5">
-          {exp.stack.map((tech: string) => (
-            <span
-              key={tech}
-              className="font-mono text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-white/[0.04] text-white/40 border border-white/[0.06] group-hover:border-indigo-500/20 group-hover:text-white/60 transition-all duration-300"
-            >
+        {/* Stack tags */}
+        <div className="flex flex-wrap gap-2 mt-auto shrink-0 z-10 pt-4">
+          {exp.stack?.slice(0, 4).map((tech: string, i: number) => (
+            <span key={i} className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 font-mono text-[9px] uppercase tracking-widest text-white/60 font-medium shadow-sm">
               {tech}
             </span>
           ))}
         </div>
-
-        {/* ── Row 6: Footer meta + CTA ───────────────────────────────── */}
-        <div className="flex items-center justify-between pt-4 border-t border-white/[0.05] mt-auto">
-          <div className="flex gap-2">
-            <span className="text-[8px] font-black font-mono uppercase tracking-widest px-2 py-0.5 rounded border border-indigo-500/20 text-indigo-400/70">
-              {exp.type}
-            </span>
-            <span className={`text-[8px] font-black font-mono uppercase tracking-widest px-2 py-0.5 rounded border ${
-              exp.level === "Core"
-                ? "border-violet-500/20 text-violet-400/70"
-                : "border-white/10 text-white/20"
-            }`}>
-              {exp.level}
-            </span>
-          </div>
-
-          {exp.has_details_page ? (
-            <Link
-              href={exp.links.details}
-              className="flex items-center gap-1.5 text-[9px] font-black font-mono uppercase tracking-widest text-white/30 hover:text-indigo-400 transition-colors duration-200 group/link"
-            >
-              View Case
-              <LuArrowUpRight
-                size={11}
-                className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform duration-200"
-              />
-            </Link>
-          ) : (
-            <span className="text-[8px] font-mono text-white/10 uppercase tracking-widest">
-              No details page
-            </span>
-          )}
-        </div>
-
+        
       </div>
     </motion.div>
   );
