@@ -93,7 +93,7 @@ export default function ProjectPage({ params }: { params: Promise<{ id: string }
     if (s.id === "limitations") return project.limitations?.length > 0;
     if (s.id === "roadmap") return project.future_work?.length > 0;
     if (s.id === "architecture") return project.architecture?.components?.length > 0 || project.architecture?.diagram;
-    if (s.id === "problem") return project.problem?.problem_space || project.problem?.constraints?.length > 0;
+    if (s.id === "problem") return project.problem?.description || project.problem?.constraints?.length > 0;
     if (s.id === "stack") return Object.keys(project.stack || {}).length > 0;
     return false;
   }).map((s) => ({
