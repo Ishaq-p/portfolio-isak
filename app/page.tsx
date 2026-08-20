@@ -109,7 +109,7 @@ export default function LandingPage() {
           <OrbitMark size="xl" tone="ion" className="scale-[2.5] md:scale-[4] blur-[1px] opacity-40" />
         </div>
 
-        <div className="relative z-10 w-full flex-1 flex flex-col lg:flex-row items-start justify-center pt-[8vh] sm:pt-[12vh] md:pt-0 md:items-center md:justify-between px-6 md:px-16 lg:px-24 max-w-[1600px] mx-auto gap-8 lg:gap-12">
+        <div className="relative z-10 w-full flex-1 flex flex-col lg:flex-row items-start justify-center pt-[8vh] sm:pt-[12vh] md:pt-0 md:items-center px-6 md:px-16 lg:px-24 max-w-[1600px] mx-auto gap-8 lg:gap-12">
 
           <div className="w-full lg:w-[55%] flex flex-col justify-center">
 
