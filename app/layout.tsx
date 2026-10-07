@@ -11,7 +11,7 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "Ishaq PaktinYar - Software Engineer & Bioinformatics Researcher",
+  title: "Ishaq Paktinyar - Software Engineer & Bioinformatics Researcher",
   description: "Backend systems and applied machine learning, built and deployed in production.",
 };
 
