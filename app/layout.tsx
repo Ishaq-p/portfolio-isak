@@ -4,6 +4,7 @@ import NoiseOverlay from "./components/NoiseOverlay";
 import Footer from "./components/Footer";
 import './globals.css';
 import { Fraunces } from 'next/font/google';
+import Chrome from "./components/Chrome";
 
 const fraunces = Fraunces({ 
   subsets: ['latin'],
@@ -23,10 +24,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning={true} className={`${fraunces.variable} font-sans`}>
-        <NoiseOverlay />
+        <Chrome>{children}</Chrome>
+        {/* <NoiseOverlay />
         <Navbar />
         <main>{children}</main>
-        <Footer />
+        <Footer /> */}
       </body>
     </html>
   );
