@@ -6,7 +6,7 @@ import { LuArrowRight } from "react-icons/lu";
 
 export default function MagneticButton({ 
   href, 
-  text = "Initialize", 
+  text = "Portfolio", 
   className = "" 
 }: { 
   href: string; 
@@ -36,7 +36,7 @@ export default function MagneticButton({
       onMouseLeave={reset}
       animate={{ x: position.x, y: position.y }}
       transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
-      className={`flex items-center justify-center gap-2 px-7 py-4 rounded-none border border-ink/15 hover:bg-ink hover:text-paper hover:border-ink text-ink transition-colors duration-300 group shrink-0 ${className}`}
+      className={`flex items-center justify-center gap-2 px-7 py-4 rounded-none border border-ink bg-ink hover:bg-paper hover:text-ink hover:border-ink/15 text-paper transition-colors duration-300 group shrink-0 ${className}`}
     >
       <span className="font-mono text-[11px] uppercase tracking-[0.2em] font-medium pointer-events-none">
         {text}

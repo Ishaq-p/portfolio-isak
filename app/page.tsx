@@ -144,7 +144,7 @@ export default function LandingPage() {
               <p className="text-base sm:text-lg md:text-xl font-normal text-graphite leading-relaxed">
                 <span className="text-ink font-medium">I don&apos;t build portfolios.</span> I architect backend infrastructure and applied ML systems that survive when real traffic hits.
               </p>
-              <MagneticButton href="#contact-section" />
+              <MagneticButton href="/portfolio" />
             </motion.div>
           </div>
 
