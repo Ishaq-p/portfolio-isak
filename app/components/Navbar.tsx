@@ -114,7 +114,7 @@ export default function Navbar() {
             </AnimatePresence>
           </div>
 
-          <MagneticButton href="#contact-section" />
+          <MagneticButton href="#contact-section" text="Contact" />
         </div>
 
         <button
