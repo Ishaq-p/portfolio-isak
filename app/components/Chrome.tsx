@@ -5,7 +5,7 @@ import NoiseOverlay from './NoiseOverlay';
 import Footer from './Footer';
 
 export default function Chrome({ children }: { children: React.ReactNode }) {
-  if (usePathname().startsWith('/bitatlim-demo')) return <>{children}</>;
+  if (usePathname().startsWith('/bitatlim-demo') || usePathname().startsWith('/galle-demo')) return <>{children}</>;
 
   return (
     <>
