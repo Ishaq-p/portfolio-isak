@@ -70,7 +70,7 @@ export default function Navbar() {
           </Link>
           <Link href="/portfolio" className={`${pathname === "/portfolio" ? fg : "hover:text-ink"} transition-colors relative flex items-center`}>
             {pathname === "/portfolio" && <span className="absolute -left-3 w-1 h-1 rounded-full bg-ion" />}
-            Work
+            Portfolio
           </Link>
 
           <div
